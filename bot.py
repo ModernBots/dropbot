@@ -74,7 +74,8 @@ class Tasks(commands.Cog):
 		await asyncio.sleep(10)
 		await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.watching, name=f" {len(bot.guilds):,} servers!"))
 
-bot.add_cog(Tasks(commands.Cog))
+bot.remove_command("help")
+bot.add_cog(Tasks(bot))
 
 @bot.slash_command(description="Gives some helpful information about the bot.")
 async def info(inter: disnake.ApplicationCommandInteraction):
