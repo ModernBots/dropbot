@@ -253,7 +253,7 @@ class RoleMenus(commands.Cog):
 		inter: disnake.ApplicationCommandInteraction, 
 		role: disnake.Role, 
 		message_title: str, 
-		button_color: commands.Param(choices=["Blurple", "Gray", "Green", "Red"]), 
+		button_color: str = commands.Param(choices=["Blurple", "Gray", "Green", "Red"]), 
 		message_description: str = None, 
 		button_emoji: disnake.Emoji = None):
 		pass
