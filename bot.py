@@ -95,7 +95,7 @@ class InfoButtons(disnake.ui.View):
 			style=disnake.ButtonStyle.link,
 			label="Invite",
 			emoji="😊",
-			url="https://discord.com/api/oauth2/authorize?client_id=923845100277202974&permissions=1376805841984&scope=bot%20applications.commands",
+			url="https://discord.com/api/oauth2/authorize?client_id=923885285266292846&permissions=1376805841984&scope=bot%20applications.commands",
 			row=0
 		))
 
@@ -124,7 +124,7 @@ async def info(inter: disnake.ApplicationCommandInteraction):
 		color=0x5865F2,
 		#url="https://modernbot.t1c.dev/"
 	)
-	embed.set_thumbnail(url="https://cdn.discordapp.com/app-icons/923845100277202974/c238b92ba3f25743da34f7d42ff17e03.png?size=512")
+	embed.set_thumbnail(url="https://cdn.discordapp.com/app-icons/923885285266292846/c238b92ba3f25743da34f7d42ff17e03.png?size=512")
 	embed.add_field(
 		name="🤔 How to use",
 		value="""__Type `/`, and navigate to ModernBot to see all the commands.__
