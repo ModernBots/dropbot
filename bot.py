@@ -32,25 +32,32 @@ bot = commands.AutoShardedBot(
 mongoclient = pymongo.MongoClient()
 db = mongoclient.modernbot 
 guild_preferences = db.guild_preferences
-reaction_roles = db.reaction_roles
+role_menus = db.role_menus
+polls = db.polls
 
-class InfoButtons(disnake.ui.View):
-	def __init__(self):
-		super().__init__()
-		self.add_item(disnake.ui.Button(
-			style=disnake.ButtonStyle.link,
-			label="GitHub",
-			emoji="<:github:923861791409307659>",
-			url="https://github.com/ThatOneCalculator/modernbot",
-			row=0
-		))
-		self.add_item(disnake.ui.Button(
-			style=disnake.ButtonStyle.link,
-			label="Invite",
-			emoji="😊",
-			url="https://discord.com/api/oauth2/authorize?client_id=923845100277202974&permissions=1376805841984&scope=bot%20applications.commands",
-			row=0
-		))	
+def create_role_menu(guild_id: int, channel_id: int, message_id: int, roles: list):
+	data = {
+		"guild_id": guild_id,
+		"channel_id": channel_id,
+		"message_id": message_id
+		"roles": roles
+	}
+	if role_menus.find_one({"message_id": message_id}) != None:
+		return False
+	role_menus.insert_one(data)
+	return True
+
+def create_poll(guild_id: int, message_id: int, options: list):
+	data = {
+		"guild_id": guild_id,
+		"channel_id": channel_id,
+		"message_id": message_id,
+		"votes": []
+	}
+	if polls.find_one({"message_id": message_id}) != None:
+		return False
+	polls.insert_one(data)
+	return True
 
 class Tasks(commands.Cog):
 
@@ -72,10 +79,28 @@ class Tasks(commands.Cog):
 	async def update_status(self):
 		await self.bot.wait_until_ready()
 		await asyncio.sleep(10)
-		await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.watching, name=f" {len(bot.guilds):,} servers!"))
+		await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.watching, name=f"/info in {len(bot.guilds):,} servers!"))
 
 bot.remove_command("help")
 bot.add_cog(Tasks(bot))
+
+class InfoButtons(disnake.ui.View):
+	def __init__(self):
+		super().__init__()
+		self.add_item(disnake.ui.Button(
+			style=disnake.ButtonStyle.link,
+			label="GitHub",
+			emoji="<:github:923861791409307659>",
+			url="https://github.com/ThatOneCalculator/modernbot",
+			row=0
+		))
+		self.add_item(disnake.ui.Button(
+			style=disnake.ButtonStyle.link,
+			label="Invite",
+			emoji="😊",
+			url="https://discord.com/api/oauth2/authorize?client_id=923845100277202974&permissions=1376805841984&scope=bot%20applications.commands",
+			row=0
+		))
 
 @bot.slash_command(description="Gives some helpful information about the bot.")
 async def info(inter: disnake.ApplicationCommandInteraction):
@@ -148,9 +173,75 @@ You have to choose one role when making a role menu, and can add more roles to a
 	)
 	await inter.send(content=None, embed=embed, view=InfoButtons())
 
+class PollDropdown(disnake.ui.Select):
+	def __init__(self, poll_options, title, min_choices, max_choices):
+		self.options = []
+		self.votes = polls.find_one() #TODO
+		self.total_votes = []
+		for count, i in enumerate(poll_options):
+			vote_count = votes[count]
+			self.options.append(disnake.SelectOption(
+				label=i,
+				description=f"{votes} vote{'' if len(vote_count) == 1 else 's'}"
+				))
+		super().__init__(
+			placeholder=title,
+			min_values=min_choices,
+			max_values=max_choices,
+			options=self.options,
+		)
+	async def callback(self, inter: disnake.MessageInteraction):
+		for i in self.values:
+			self.votes[i] += 1
+		embed = discord.Embed(title=title, description=f"Total votes: {self.total_votes}")
+		for count, i in enumerate(self.options):
+			blocks_filled = "🟦" * int((self.votes[count]/self.total_votes)*10)
+			blocks_empty = "⬜" * int((10-(self.votes[count]/self.total_votes))*10)
+			embed.add_field(
+				name=i
+				value=f"{blocks_filled}{blocks_empty} ({self.votes[count]})"
+			)
+		await inter.response.edit_message(embed=embed)
+
+class PollView(disnake.ui.View):
+	def __init__(self, poll_options, title, min_choices, max_choices):
+		super().__init__()
+		self.add_item(SinglePollDropdown(poll_options, title, min_choices, max_choices))
+
 @bot.slash_command(description="Poll: vote for one option. Seperate each option with a comma.")
-async def single_poll(inter: disnake.ApplicationCommandInteraction, options: str):
-	pass
+async def single_poll(
+	inter: disnake.ApplicationCommandInteraction, 
+	title: str, 
+	options: str, 
+	min_choices = commands.Param(default=1, ge=1, le=24), 
+	max_choices = commands.Param(default=1, ge=1, le=25)):
+	poll_options = options.split(",")[:25]
+	[i.strip() for i in poll_options]
+	[i[:25] for i in poll_options]
+	create_poll(inter.guild.id, inter.channel.id, inter.id)
+	embed = discord.Embed(title=title)
+	for i in options:
+		embed.add_field(
+			name=i
+			value="⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ (0)"
+		)
+	await inter.send(content=None, embed=embed, view=SinglePollView(poll_options, title, min_choices, max_choices))
+
+class MultiPollView(disnake.ui.View):
+	def __init__(self, options):
+		super().__init__()
+		self.row = 0
+		self.column = 0
+		for i in options:
+			if self.column == 5:
+				self.row += 1
+				self.column = 0
+			self.add_item(disnake.ui.Button(
+				style=disnake.ButtonStyle.primary,
+				label=i,
+				row=self.row
+			))
+			self.column += 1
 
 @bot.slash_command(description="Poll: vote for one or more option(s). Seperate each option with a comma.")
 async def multi_poll(inter: disnake.ApplicationCommandInteraction, options: str):
