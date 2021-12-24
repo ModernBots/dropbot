@@ -247,13 +247,14 @@ class RoleMenus(commands.Cog):
 	async def remove_role_from_menu(self, inter: disnake.ApplicationCommandInteraction, message_id: int, position: int = commands.Param(ge=1, le=25)):
 		pass
 
-	@bot.slash_command(description="Makes a role button message")
-	async def role_button(self,
+	@bot.slash_command(description="Makes a role button message.")
+	async def role_button(
+		self,
 		inter: disnake.ApplicationCommandInteraction, 
 		role: disnake.Role, 
 		message_title: str, 
-		message_description: str = None, 
 		button_color: commands.Param(choices=["Blurple", "Gray", "Green", "Red"]), 
+		message_description: str = None, 
 		button_emoji: disnake.Emoji = None):
 		pass
 
