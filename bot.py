@@ -232,7 +232,8 @@ class Polls(commands.Cog):
 
 class RoleMenus(commands.Cog):
 
-	def has_role_permissions()
+	def has_role_permissions():
+		pass
 
 	@bot.slash_command(description="Make a role menu. Use /add_role_to_menu to add more roles.")
 	async def role_menu(self, inter: disnake.ApplicationCommandInteraction, title: str, description: str = None):
