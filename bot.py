@@ -134,14 +134,18 @@ async def info(inter: disnake.ApplicationCommandInteraction):
 
 I have 2 main functions: polls and role menus.
 
-For polls, you can use `/single_poll` to make a poll where everyone can vote only once, and `/multi_poll` to make a poll where everyone can vote one or more times.
+For polls, you can use `/poll` to make a poll.
 Options should be seperated by commas, and a poll can have up to 25 options.
-Example: `/single_poll title:What's your favorite fruit? options:Apple, Orange, Banana, Lime, Strawberry`
+`min_choices` is the minimum number of choices a person can vote for (defaults to 1).
+`max_choices` is the maximum number of choices a person can vote for (defaults to 1).
 The poll author can use `/close_poll` to close a poll they made.
 
 For role menus, you must have the **Manage Roles** permission in order to run the commands.
-You can use `/single_role_menu` to make a role menu where everyone can only choose one role, and `/multi_role_menu` to make a role menu where everyone can choose one or more roles.
-You have to choose one role when making a role menu, and can add more roles to a role menu by using `/add_role_to_menu`. Likewise you can use `/remove_role_from_menu` to remove a role from a menu.
+You can use `/role_menu` to make a role menu.
+`min_choices` is the minimum number of roles a person can assign themselves (defaults to 1).
+`max_choices` is the maximum number of roles a person can assign themselves (defaults to 1).
+You have to choose one role when making a role menu, and can add more roles to a role menu by using `/add_role_to_menu`.
+Likewise, you can use `/remove_role_from_menu` to remove a role from a menu.
 """,
 		inline=False
 	)
@@ -208,8 +212,8 @@ class PollView(disnake.ui.View):
 		super().__init__()
 		self.add_item(SinglePollDropdown(poll_options, title, min_choices, max_choices))
 
-@bot.slash_command(description="Poll: vote for one option. Seperate each option with a comma.")
-async def single_poll(
+@bot.slash_command(description="Make a poll. Seperate each option with a comma.")
+async def poll(
 	inter: disnake.ApplicationCommandInteraction, 
 	title: str, 
 	options: str, 
@@ -227,36 +231,8 @@ async def single_poll(
 		)
 	await inter.send(content=None, embed=embed, view=SinglePollView(poll_options, title, min_choices, max_choices))
 
-class MultiPollView(disnake.ui.View):
-	def __init__(self, options):
-		super().__init__()
-		self.row = 0
-		self.column = 0
-		for i in options:
-			if self.column == 5:
-				self.row += 1
-				self.column = 0
-			self.add_item(disnake.ui.Button(
-				style=disnake.ButtonStyle.primary,
-				label=i,
-				row=self.row
-			))
-			self.column += 1
-
-@bot.slash_command(description="Poll: vote for one or more option(s). Seperate each option with a comma.")
-async def multi_poll(inter: disnake.ApplicationCommandInteraction, options: str):
-	pass
-
-@bot.slash_command(description="Stops a poll from being voted on.")
-async def close_poll(inter: disnake.ApplicationCommandInteraction):
-	pass
-
-@bot.slash_command(description="Role menu: assign one role. Use /add_role_to_menu to add more roles.")
-async def single_role_menu(inter: disnake.ApplicationCommandInteraction, title: str, description: str = None):
-	pass
-
-@bot.slash_command(description="Role menu: assign one or more role(s). Use /add_role_to_menu to add more roles.")
-async def multi_role_menu(inter: disnake.ApplicationCommandInteraction, title: str, description: str = None):
+@bot.slash_command(description="Make a role menu. Use /add_role_to_menu to add more roles.")
+async def role_menu(inter: disnake.ApplicationCommandInteraction, title: str, description: str = None):
 	pass
 
 @bot.slash_command(description="Adds a role to a role menu.")

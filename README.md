@@ -20,11 +20,15 @@ Type `/`, and navigate to ModernBot to see all the commands.
 
 I have 2 main functions: polls and role menus.
 
-For polls, you can use `/single_poll` to make a poll where everyone can vote only once, and `/multi_poll` to make a poll where everyone can vote one or more times.
+For polls, you can use `/poll` to make a poll.
 Options should be seperated by commas, and a poll can have up to 25 options.
-Example: `/single_poll title:What's your favorite fruit? options:Apple, Orange, Banana, Lime, Strawberry`
+`min_choices` is the minimum number of choices a person can vote for (defaults to 1).
+`max_choices` is the maximum number of choices a person can vote for (defaults to 1).
 The poll author can use `/close_poll` to close a poll they made.
 
 For role menus, you must have the **Manage Roles** permission in order to run the commands.
-You can use `/single_role_menu` to make a role menu where everyone can only choose one role, and `/multi_role_menu` to make a role menu where everyone can choose one or more roles.
-You have to choose one role when making a role menu, and can add more roles to a role menu by using `/add_role_to_menu`. Likewise you can use `/remove_role_from_menu` to remove a role from a menu.
+You can use `/role_menu` to make a role menu.
+`min_choices` is the minimum number of roles a person can assign themselves (defaults to 1).
+`max_choices` is the maximum number of roles a person can assign themselves (defaults to 1).
+You have to choose one role when making a role menu, and can add more roles to a role menu by using `/add_role_to_menu`.
+Likewise, you can use `/remove_role_from_menu` to remove a role from a menu.
