@@ -52,6 +52,30 @@ class InfoButtons(disnake.ui.View):
 			row=0
 		))	
 
+class Tasks(commands.Cog):
+
+	def __init__(self, bot):
+		self.bot = bot
+		# self.update_stats.start()
+		self.update_status.start()
+
+	@tasks.loop(minutes=30.0)
+	async def update_stats(self):
+		await self.bot.wait_until_ready()
+		await asyncio.sleep(5)
+		try:
+			await self.bot.topggpy.post_guild_count()
+		except Exception as e:
+			print(f"\nServer update on top.gg failed\n{e}\n")
+
+	@tasks.loop(minutes=10)
+	async def update_status(self):
+		await self.bot.wait_until_ready()
+		await asyncio.sleep(10)
+		await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.watching, name=f" {len(bot.guilds):,} servers!"))
+
+bot.add_cog(Tasks(commands.Cog))
+
 @bot.slash_command(description="Gives some helpful information about the bot.")
 async def info(inter: disnake.ApplicationCommandInteraction):
 	# botinfo = await bot.topggpy.get_bot_info()
