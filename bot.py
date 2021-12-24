@@ -132,3 +132,9 @@ async def add_role_to_menu(inter: disnake.ApplicationCommandInteraction, message
 @bot.slash_command(description="Removes a role to a role menu.")
 async def remove_role_from_menu(inter: disnake.ApplicationCommandInteraction, message_id: int, position: int = commands.Param(ge=1, le=25), emoji: disnake.Emoji = None):
 	pass
+
+@bot.event
+async def on_ready():
+	print("-----\nReady\n-----\n")
+
+bot.login(token)
