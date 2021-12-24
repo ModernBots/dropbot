@@ -137,4 +137,4 @@ async def remove_role_from_menu(inter: disnake.ApplicationCommandInteraction, me
 async def on_ready():
 	print("-----\nReady\n-----\n")
 
-bot.login(token)
+bot.run(token)
