@@ -20,15 +20,18 @@ Type `/`, and navigate to ModernBot to see all the commands.
 
 I have 2 main functions: polls and role menus.
 
-For polls, you can use `/poll` to make a poll.
+Type `/`, and navigate to ModernBot to see all the commands.
+
+Use `/poll` to make a poll.
 Options should be seperated by commas, and a poll can have up to 25 options.
-`min_choices` is the minimum number of choices a person can vote for (defaults to 1).
-`max_choices` is the maximum number of choices a person can vote for (defaults to 1).
 The poll author can use `/close_poll` to close a poll they made.
 
-For role menus, you must have the **Manage Roles** permission in order to run the commands.
-You can use `/role_menu` to make a role menu.
-`min_choices` is the minimum number of roles a person can assign themselves (defaults to 1).
-`max_choices` is the maximum number of roles a person can assign themselves (defaults to 1).
+For role menus and role buttons, you must have the **Manage Roles** permission in order to run the commands.
+
+Use `/role_menu` to make a role menu.
 You have to choose one role when making a role menu, and can add more roles to a role menu by using `/add_role_to_menu`.
 Likewise, you can use `/remove_role_from_menu` to remove a role from a menu.
+
+Use `/role_button` to make a role button.
+Reccomended for single role assign functions/rule agreement.
+Only one button/role per message.
