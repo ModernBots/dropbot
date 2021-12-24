@@ -34,6 +34,24 @@ db = mongoclient.modernbot
 guild_preferences = db.guild_preferences
 reaction_roles = db.reaction_roles
 
+class InfoButtons(disnake.ui.View):
+	def __init__(self):
+		super().__init__()
+		self.add_item(disnake.ui.Button(
+			style=disnake.ButtonStyle.link,
+			label="GitHub",
+			emoji="<:github:923861791409307659>",
+			url="https://github.com/ThatOneCalculator/modernbot",
+			row=0
+		))
+		self.add_item(disnake.ui.Button(
+			style=disnake.ButtonStyle.link,
+			label="Invite",
+			emoji="😊",
+			url="https://discord.com/api/oauth2/authorize?client_id=923845100277202974&permissions=1376805841984&scope=bot%20applications.commands",
+			row=0
+		))	
+
 @bot.slash_command(description="Gives some helpful information about the bot.")
 async def info(inter: disnake.ApplicationCommandInteraction):
 	# botinfo = await bot.topggpy.get_bot_info()
