@@ -15,7 +15,7 @@ from statcord import StatcordClient
 
 token = dotenv_values(".env")["DISCORD"]
 upsince = datetime.datetime.now()
-version = "1.0.0"
+version = "**ALPHA PRERELEASE**"
 intents = disnake.Intents.default()
 bot = commands.AutoShardedBot(
 	command_prefix=commands.when_mentioned_or(";"),
