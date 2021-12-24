@@ -39,7 +39,7 @@ def create_role_menu(guild_id: int, channel_id: int, message_id: int, roles: lis
 	data = {
 		"guild_id": guild_id,
 		"channel_id": channel_id,
-		"message_id": message_id
+		"message_id": message_id,
 		"roles": roles
 	}
 	if role_menus.find_one({"message_id": message_id}) != None:
