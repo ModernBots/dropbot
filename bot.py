@@ -248,8 +248,7 @@ class RoleMenus(commands.Cog):
 		pass
 
 	@bot.slash_command(description="Makes a role button message")
-	async def role_button(
-		self,
+	async def role_button(self,
 		inter: disnake.ApplicationCommandInteraction, 
 		role: disnake.Role, 
 		message_title: str, 
