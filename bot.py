@@ -200,7 +200,7 @@ class Polls(commands.Cog):
 				blocks_filled = "🟦" * int((self.votes[count]/self.total_votes)*10)
 				blocks_empty = "⬜" * int((10-(self.votes[count]/self.total_votes))*10)
 				embed.add_field(
-					name=i
+					name=i,
 					value=f"{blocks_filled}{blocks_empty} ({self.votes[count]})"
 				)
 			await inter.response.edit_message(embed=embed)
@@ -225,7 +225,7 @@ class Polls(commands.Cog):
 		embed = discord.Embed(title=title)
 		for i in options:
 			embed.add_field(
-				name=i
+				name=i,
 				value="⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ (0)"
 			)
 		await inter.send(content=None, embed=embed, view=SinglePollView(poll_options, title, min_choices, max_choices))
