@@ -190,7 +190,7 @@ class PollDropdown(disnake.ui.Select):
 			max_values=max_choices,
 			options=self.options,
 		)
-	async def callback(self, inter: disnake.MessageInteraction):
+	async def callback(inter: disnake.MessageInteraction):
 		for i in self.values:
 			self.votes[i] += 1
 		embed = discord.Embed(title=title, description=f"Total votes: {self.total_votes}")
@@ -210,7 +210,6 @@ class PollView(disnake.ui.View):
 
 @bot.slash_command(description="Make a poll. Seperate each option with a comma.")
 async def poll(
-	self,
 	inter: disnake.ApplicationCommandInteraction, 
 	title: str, 
 	options: str, 
@@ -234,20 +233,19 @@ def has_role_permissions():
 	pass
 
 @bot.slash_command(description="Make a role menu. Use /add_role_to_menu to add more roles.")
-async def role_menu(self, inter: disnake.ApplicationCommandInteraction, title: str, description: str = None):
+async def role_menu(inter: disnake.ApplicationCommandInteraction, title: str, description: str = None):
 	pass
 
 @bot.slash_command(description="Adds a role to a role menu.")
-async def add_role_to_menu(self, inter: disnake.ApplicationCommandInteraction, message_id: int, role: disnake.Role, emoji: disnake.Emoji = None):
+async def add_role_to_menu(inter: disnake.ApplicationCommandInteraction, message_id: int, role: disnake.Role, emoji: disnake.Emoji = None):
 	pass
 
 @bot.slash_command(description="Removes a role to a role menu.")
-async def remove_role_from_menu(self, inter: disnake.ApplicationCommandInteraction, message_id: int, position: int = commands.Param(ge=1, le=25)):
+async def remove_role_from_menu(inter: disnake.ApplicationCommandInteraction, message_id: int, position: int = commands.Param(ge=1, le=25)):
 	pass
 
 @bot.slash_command(description="Makes a role button message.")
 async def role_button(
-	self,
 	inter: disnake.ApplicationCommandInteraction, 
 	role: disnake.Role, 
 	message_title: str, 
