@@ -1,17 +1,14 @@
 import asyncio
 import datetime
-import sys
-import traceback
-import typing
 
 import disnake
 import humanfriendly
 import pymongo
-import topgg
+# import topgg
 from async_timeout import timeout
 from disnake.ext import commands, tasks
 from dotenv import dotenv_values
-from statcord import StatcordClient
+# from statcord import StatcordClient
 
 token = dotenv_values(".env")["DISCORD"]
 upsince = datetime.datetime.now()
@@ -35,29 +32,9 @@ guild_preferences = db.guild_preferences
 role_menus = db.role_menus
 polls = db.polls
 
-def create_role_menu(guild_id: int, channel_id: int, message_id: int, roles: list):
-	data = {
-		"guild_id": guild_id,
-		"channel_id": channel_id,
-		"message_id": message_id,
-		"roles": roles
-	}
-	if role_menus.find_one({"message_id": message_id}) != None:
-		return False
-	role_menus.insert_one(data)
-	return True
-
-def create_poll(guild_id: int, message_id: int, options: list):
-	data = {
-		"guild_id": guild_id,
-		"channel_id": channel_id,
-		"message_id": message_id,
-		"votes": []
-	}
-	if polls.find_one({"message_id": message_id}) != None:
-		return False
-	polls.insert_one(data)
-	return True
+bot.load_extension("extesions/polls")
+bot.load_extension("extesions/rolemenus")
+# bot.load_extension("extesions/lno")
 
 class Tasks(commands.Cog):
 
@@ -172,87 +149,6 @@ Only one button/role per message.
 		inline=False
 	)
 	await inter.send(content=None, embed=embed, view=InfoButtons())
-
-class PollDropdown(disnake.ui.Select):
-	def __init__(self, poll_options, title, min_choices, max_choices):
-		self.options = []
-		self.votes = polls.find_one() #TODO
-		self.total_votes = []
-		for count, i in enumerate(poll_options):
-			vote_count = votes[count]
-			self.options.append(disnake.SelectOption(
-				label=i,
-				description=f"{votes} vote{'' if len(vote_count) == 1 else 's'}"
-				))
-		super().__init__(
-			placeholder=title,
-			min_values=min_choices,
-			max_values=max_choices,
-			options=self.options,
-		)
-	async def callback(inter: disnake.MessageInteraction):
-		for i in self.values:
-			self.votes[i] += 1
-		embed = discord.Embed(title=title, description=f"Total votes: {self.total_votes}")
-		for count, i in enumerate(self.options):
-			blocks_filled = "🟦" * int((self.votes[count]/self.total_votes)*10)
-			blocks_empty = "⬜" * int((10-(self.votes[count]/self.total_votes))*10)
-			embed.add_field(
-				name=i,
-				value=f"{blocks_filled}{blocks_empty} ({self.votes[count]})"
-			)
-		await inter.response.edit_message(embed=embed)
-
-class PollView(disnake.ui.View):
-	def __init__(self, poll_options, title, min_choices, max_choices):
-		super().__init__()
-		self.add_item(SinglePollDropdown(poll_options, title, min_choices, max_choices))
-
-@bot.slash_command(description="Make a poll. Seperate each option with a comma.")
-async def poll(
-	inter: disnake.ApplicationCommandInteraction, 
-	title: str, 
-	options: str, 
-	min_choices = commands.Param(default=1, ge=1, le=24), 
-	max_choices = commands.Param(default=1, ge=1, le=25)):
-	poll_options = options.split(",")[:25]
-	[i.strip() for i in poll_options]
-	[i[:25] for i in poll_options]
-	create_poll(inter.guild.id, inter.channel.id, inter.id)
-	embed = discord.Embed(title=title)
-	for i in options:
-		embed.add_field(
-			name=i,
-			value="⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ (0)"
-		)
-	await inter.send(content=None, embed=embed, view=SinglePollView(poll_options, title, min_choices, max_choices))
-
-###
-
-def has_role_permissions():
-	pass
-
-@bot.slash_command(description="Make a role menu. Use /add_role_to_menu to add more roles.")
-async def role_menu(inter: disnake.ApplicationCommandInteraction, title: str, description: str = None):
-	pass
-
-@bot.slash_command(description="Adds a role to a role menu.")
-async def add_role_to_menu(inter: disnake.ApplicationCommandInteraction, message_id: int, role: disnake.Role, emoji: disnake.Emoji = None):
-	pass
-
-@bot.slash_command(description="Removes a role to a role menu.")
-async def remove_role_from_menu(inter: disnake.ApplicationCommandInteraction, message_id: int, position: int = commands.Param(ge=1, le=25)):
-	pass
-
-@bot.slash_command(description="Makes a role button message.")
-async def role_button(
-	inter: disnake.ApplicationCommandInteraction, 
-	role: disnake.Role, 
-	message_title: str, 
-	button_color: str = commands.Param(choices=["Blurple", "Gray", "Green", "Red"]), 
-	message_description: str = None, 
-	button_emoji: disnake.Emoji = None):
-	pass
 
 bot.remove_command("help")
 bot.add_cog(Tasks(bot))
