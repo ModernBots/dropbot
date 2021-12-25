@@ -21,9 +21,9 @@
      inkscape:pagecheckerboard="0"
      showgrid="false"
      inkscape:snap-global="true"
-     inkscape:zoom="6.3628319"
-     inkscape:cx="69.073018"
-     inkscape:cy="53.356745"
+     inkscape:zoom="4.4992016"
+     inkscape:cx="71.679384"
+     inkscape:cy="46.119294"
      inkscape:window-width="1584"
      inkscape:window-height="928"
      inkscape:window-x="8"
@@ -52,7 +52,7 @@
          offset="0"
          id="stop3043" />
       <svg:stop
-         style="stop-color:#aaaaaa;stop-opacity:0"
+         style="stop-color:#ffffff;stop-opacity:1"
          offset="1"
          id="stop3045" />
     </svg:linearGradient>
@@ -87,10 +87,10 @@
        inkscape:collect="always"
        xlink:href="#linearGradient3047"
        id="linearGradient3049"
-       x1="5.6982999"
-       y1="26.963499"
-       x2="162.24295"
-       y2="-84.579063"
+       x1="0"
+       y1="27"
+       x2="143.73438"
+       y2="-84.976952"
        gradientUnits="userSpaceOnUse" />
     <svg:mask
        id="roboillo-b"
