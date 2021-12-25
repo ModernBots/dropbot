@@ -13,7 +13,7 @@ class PollsCog(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
-	def create_poll(guild_id: int, message_id: int, options: list):
+	def create_poll(self, guild_id: int, message_id: int, options: list):
 		data = {
 			"guild_id": guild_id,
 			"message_id": message_id,
@@ -76,9 +76,9 @@ class PollsCog(commands.Cog):
 		poll_options = options.split(",")[:25]
 		[i.strip() for i in poll_options]
 		[i[:25] for i in poll_options]
-		self.create_poll(inter.guild.id, inter.channel.id, inter.id)
+		self.create_poll(inter.guild.id, inter.id, poll_options)
 		embed = disnake.Embed(title=title)
-		for i in options:
+		for i in poll_options:
 			embed.add_field(
 				name=i,
 				value="⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ (0)"
