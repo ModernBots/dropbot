@@ -1,8 +1,8 @@
 <div align="center">
-    <h1>ModernBot</h1>
+    <h1>DropBot</h1>
     <a href="https://modernbot.t1c.dev/"><img src="assets/logo.svg" height="100"></a>
     <br>
-    <h3>A minimalistic, modern Discord bot for roles and polls</h3>
+    <h3>A minimalistic, modern Discord bot for roles and polls using dropdowns</h3>
     <a href="https://discord.com/api/oauth2/authorize?client_id=923885285266292846&permissions=1376805841984&scope=bot%20applications.commands" target="blank"><img src="https://shields.io/badge/invite_the-discord_bot-5865F2?logo=discord&style=for-the-badge" height="35"/></a>
 </div>
 
