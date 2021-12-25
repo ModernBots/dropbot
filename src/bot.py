@@ -32,8 +32,8 @@ guild_preferences = db.guild_preferences
 role_menus = db.role_menus
 polls = db.polls
 
-bot.load_extension("extesions/polls")
-bot.load_extension("extesions/rolemenus")
+bot.load_extension("src/extesions/polls")
+bot.load_extension("src/extesions/rolemenus")
 # bot.load_extension("extesions/lno")
 
 class Tasks(commands.Cog):
