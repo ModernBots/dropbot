@@ -5,7 +5,7 @@
    viewBox="0 0 144 113"
    version="1.1"
    id="svg159"
-   sodipodi:docname="bot.svg"
+   sodipodi:docname="dropbot.svg"
    inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -22,8 +22,8 @@
      showgrid="false"
      inkscape:snap-global="true"
      inkscape:zoom="6.3628319"
-     inkscape:cx="62.472184"
-     inkscape:cy="56.5"
+     inkscape:cx="69.073018"
+     inkscape:cy="53.356745"
      inkscape:window-width="1584"
      inkscape:window-height="928"
      inkscape:window-x="8"
@@ -52,7 +52,7 @@
          offset="0"
          id="stop3043" />
       <svg:stop
-         style="stop-color:#4f545c;stop-opacity:0;"
+         style="stop-color:#aaaaaa;stop-opacity:0"
          offset="1"
          id="stop3045" />
     </svg:linearGradient>
@@ -132,7 +132,8 @@
      mask="url(#roboillo-b)"
      id="path136"
      style="fill:url(#linearGradient2536);fill-opacity:1;fill-rule:evenodd"
-     transform="matrix(1,0,0,0.98914782,18,-0.9644278)" />
+     transform="matrix(1,0,0,0.98914782,18,-0.9644278)"
+     sodipodi:nodetypes="ccsssc" />
   <svg:path
      fill="#202225"
      d="m 82.9683,42.6437 c -5.376,7.526 -16.561,7.526 -21.937,0 -2.53,-3.542 -6.615,-5.645 -10.968,-5.645 h -12.097 c -4.952,0 -8.966,4.015 -8.966,8.967 v 32.033 h 86 v -32.033 c 0,-4.952 -4.014,-8.967 -8.967,-8.967 h -12.097 c -4.353,0 -8.438,2.103 -10.968,5.645"
@@ -166,7 +167,10 @@
        d="m 85.4683,26.9635 c 17.814,-0.013 35.655,0.088 53.495,0 l 5.037,-25.989 h -144 l 5.698,25.989 c 26.588,-0.163 53.194,0.019 79.77,0"
        mask="url(#roboillo-d)"
        id="path149"
-       style="fill:url(#linearGradient3049);fill-opacity:1" />
+       style="fill:url(#linearGradient3049);fill-opacity:1"
+       inkscape:export-filename="/home/kainoa/Downloads/dropbot.png"
+       inkscape:export-xdpi="558.14001"
+       inkscape:export-ydpi="558.14001" />
   </svg:g>
   <svg:path
      fill="#b9bbbe"
