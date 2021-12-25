@@ -62,7 +62,7 @@ class PollsCog(commands.Cog):
 	class PollView(disnake.ui.View):
 		def __init__(self, poll_options, title, min_choices, max_choices):
 			super().__init__()
-			self.add_item(super().PollDropdown(poll_options, title, min_choices, max_choices))
+			self.add_item(PollsCog.PollDropdown(poll_options, title, min_choices, max_choices))
 
 
 	@commands.slash_command(description="Make a poll. Seperate each option with a comma.")
