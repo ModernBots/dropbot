@@ -27,14 +27,14 @@ class PollsCog(commands.Cog):
 	# https://github.com/DisnakeDev/disnake/blob/master/examples/views/persistent.py
 
 	class PollDropdown(disnake.ui.Select):
-		def __init__(self, poll_options, title, min_choices, max_choices):
-			self.options = []
+		def __init__(self, options, title, min_choices, max_choices):
+			self.poll_options = []
 			self.title = title
 			self.votes = polls.find_one()  # TODO
 			self.total_votes = []
-			for count, i in enumerate(poll_options):
+			for count, i in enumerate(options):
 				vote_count = self.votes[count]
-				self.options.append(disnake.SelectOption(
+				self.poll_options.append(disnake.SelectOption(
 								label=i,
 								description=f"{self.votes} vote{'' if len(vote_count) == 1 else 's'}"
 							))
@@ -42,7 +42,7 @@ class PollsCog(commands.Cog):
 				placeholder=title,
 				min_values=min_choices,
 				max_values=max_choices,
-				options=self.options,
+				options=self.poll_options,
 			)
 
 		async def callback(self, inter: disnake.MessageInteraction):
