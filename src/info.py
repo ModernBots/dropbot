@@ -34,21 +34,28 @@ class InfoCog(commands.Cog):
 				label="ModernBots homepage",
 				emoji="<:modernbots:924434750435897344>",
 				url="https://github.com/modernbots",
-				row=0
+				row=1
 			))
 			self.add_item(disnake.ui.Button(
 				style=disnake.ButtonStyle.link,
 				label="Check out ModBot",
 				emoji="<:modbot:924434792689324052>",
 				url="https://github.com/modernbots/modbot",
-				row=0
+				row=1
 			))
 			self.add_item(disnake.ui.Button(
 				style=disnake.ButtonStyle.link,
 				label="Check out ContentBot",
 				emoji="<:contentbot:924434750914068480>",
 				url="https://github.com/modernbots/contentbot",
-				row=0
+				row=1
+			))
+			self.add_item(disnake.ui.Button(
+				style=disnake.ButtonStyle.link,
+				label="Check out RankBot",
+				emoji="<:rankbot:924568569138802718>",
+				url="https://github.com/modernbots/rankbot",
+				row=1
 			))
 
 
@@ -102,8 +109,8 @@ Only one button/role per message.""",
 			name="💁 About ModernBots",
 			value="""ModernBots is a group of free and open source Discord bots made by ThatOneCalculator designed for Discord's new components.
 
-This bot is DropBot, but there are (currently) 2 others: [ModBot](https://github.com/modernbots/modbot) and [ContentBot](https://github.com/modernbots/contentbot).
-ModBot helps out with moderation and ContentBot helps out with content announcements (i.e. YouTube, Twitch).""",
+There are currently 4 ModernBots: [DropBot](https://github.com/modernbots/dropbot), [ModBot](https://github.com/modernbots/modbot), [ContentBot](https://github.com/modernbots/contentbot), and [RankBot](https://github/.com/modernbots/rankbot).
+DropBot makes dropdown role menus and polls, ModBot helps out with moderation, ContentBot makes content announcements (i.e. YouTube, Twitch), and RankBot handles server ranking/leveling.""",
 			inline=False
 		)
 		embed.add_field(
