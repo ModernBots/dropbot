@@ -70,8 +70,8 @@ class InfoButtons(disnake.ui.View):
 		))
 		self.add_item(disnake.ui.Button(
 			style=disnake.ButtonStyle.link,
-			label="Invite",
-			emoji="😊",
+			label="Invite DropBot to another server",
+			emoji="<:dropbot:924434751316697119>",
 			url="https://discord.com/api/oauth2/authorize?client_id=923885285266292846&permissions=1376805841984&scope=bot%20applications.commands",
 			row=0
 		))
@@ -141,6 +141,14 @@ __Use `/role_button` to make a role button.__
 Reccomended for single role assign functions/rule agreement.
 Only one button/role per message.
 """,
+		inline=False
+	)
+	embed.add_field(
+		name="💁 About ModernBots",
+		value="""ModernBots is a group of free and open source Discord bots made by ThatOneCalculator designed for Discord's new components.
+
+This bot is DropBot, but there are (currently) 2 others: [ModBot](https://github.com/modernbots/modbot) and [ContentBot](https://github.com/modernbots/contentbot).
+ModBot helps out with moderation and ContentBot helps out with content announcements (i.e. YouTube, Twitch).""",
 		inline=False
 	)
 	embed.add_field(
