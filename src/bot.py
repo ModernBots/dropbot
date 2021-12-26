@@ -75,6 +75,27 @@ class InfoButtons(disnake.ui.View):
 			url="https://discord.com/api/oauth2/authorize?client_id=923885285266292846&permissions=1376805841984&scope=bot%20applications.commands",
 			row=0
 		))
+		self.add_item(disnake.ui.Button(
+			style=disnake.ButtonStyle.link,
+			label="ModernBots homepage",
+			emoji="<:modernbots:924434750435897344>",
+			url="https://github.com/modernbots",
+			row=0
+		))
+		self.add_item(disnake.ui.Button(
+			style=disnake.ButtonStyle.link,
+			label="Check out ModBot",
+			emoji="<:modbot:924434792689324052>",
+			url="https://github.com/modernbots/modbot",
+			row=0
+		))
+		self.add_item(disnake.ui.Button(
+			style=disnake.ButtonStyle.link,
+			label="Check out ContentBot",
+			emoji="<:contentbot:924434750914068480>",
+			url="https://github.com/modernbots/contentbot",
+			row=0
+		))
 
 @bot.slash_command(description="Gives some helpful information about the bot.")
 async def info(inter: disnake.ApplicationCommandInteraction):
