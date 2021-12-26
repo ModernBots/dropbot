@@ -122,7 +122,8 @@ async def info(inter: disnake.ApplicationCommandInteraction):
 		color=0x5865F2,
 		#url="https://modernbot.t1c.dev/"
 	)
-	embed.set_thumbnail(url="https://cdn.discordapp.com/app-icons/923885285266292846/c238b92ba3f25743da34f7d42ff17e03.png?size=512")
+	embed.set_thumbnail(
+		url="https://cdn.discordapp.com/app-icons/923885285266292846/7d198b9dab0c7046ad49e2bea841f98d.png?size=512")
 	embed.add_field(
 		name="🤔 How to use",
 		value="""__Type `/`, and navigate to ModernBot to see all the commands.__
