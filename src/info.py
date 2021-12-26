@@ -1,7 +1,7 @@
 import datetime
 
 import disnake
-from disnake.ext import commands, tasks
+from disnake.ext import commands
 import humanfriendly
 
 upsince = datetime.datetime.now()
