@@ -46,6 +46,7 @@ class PollsCog(commands.Cog):
 				min_values=min_choices,
 				max_values=max_choices,
 				options=self.poll_options,
+				custom_id=str(poll_id)
 			)
 
 		async def callback(self, inter: disnake.MessageInteraction):
@@ -66,7 +67,7 @@ class PollsCog(commands.Cog):
 		def __init__(self, poll_options, title, min_choices, max_choices, poll_id):
 			super().__init__(timeout=None)
 			self.add_item(PollsCog.PollDropdown(
-				poll_options, title, min_choices, max_choices, poll_id, custom_id=str(poll_id)))
+				poll_options, title, min_choices, max_choices, poll_id))
 
 	@commands.slash_command(description="Make a poll. Seperate each option with a comma.")
 	async def poll(
