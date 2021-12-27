@@ -132,7 +132,7 @@ class PollsCog(commands.Cog):
 	async def on_ready(self):
 		if not self.persistent_polls_added:
 			for i in polls.find():
-				self.add_view(self.PollView(
+				self.bot.add_view(self.PollView(
 					i["options"], i["title"], i["min_choices"], i["max_choices"], i["_id"]
 				))
 			self.persistent_polls_added = True
