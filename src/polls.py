@@ -16,10 +16,11 @@ class PollsCog(commands.Cog):
 		self.bot = bot
 		self.persistent_polls_added = False
 
-	def create_poll(self, guild_id: int, author_id: int, options: list, votes: list, voted: list):
+	def create_poll(self, guild_id: int, author_id: int, title: str, options: list, votes: list, voted: list):
 		data = {
 			"guild_id": guild_id,
 			"author_id": author_id,
+			"title": title,
 			"options": options,
 			"votes": votes,
 			"voted": voted,
@@ -104,7 +105,7 @@ class PollsCog(commands.Cog):
 		votes = []
 		for i in poll_options:
 			votes.append(0)
-		poll_id = self.create_poll(inter.guild.id, inter.author.id, poll_options, votes, [])
+		poll_id = self.create_poll(inter.guild.id, inter.author.id, title, poll_options, votes, [])
 		embed = disnake.Embed(title=title)
 		for i in poll_options:
 			embed.add_field(
@@ -132,16 +133,14 @@ class PollsCog(commands.Cog):
 	async def on_ready(self):
 		if not self.persistent_polls_added:
 			for i in polls.find():
-				print(i)
 				try:
 					self.bot.add_view(self.PollView(
 						i["options"], i["title"], i["min_choices"], i["max_choices"], i["_id"]
 					))
 				except Exception as e:
-					print(e)
-					print("\n")
+					pass
 			self.persistent_polls_added = True
-			print("\nAdded persistent polls!\n")
+			print("Added persistent polls!\n")
 
 def setup(bot):
 	bot.add_cog(PollsCog(bot))
