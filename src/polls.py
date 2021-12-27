@@ -37,10 +37,7 @@ class PollsCog(commands.Cog):
 			self.votes = PollsCog.get_poll(str(poll_id))["votes"]
 			for count, i in enumerate(options):
 				vote_count = self.votes[count]
-				self.poll_options.append(disnake.SelectOption(
-                                    label=i,
-                                    description=f"{self.votes} vote{'' if vote_count == 1 else 's'}"
-                                ))
+				self.poll_options.append(disnake.SelectOption(label=i))
 			super().__init__(
 				placeholder=title,
 				min_values=min_choices,
@@ -50,7 +47,7 @@ class PollsCog(commands.Cog):
 			)
 
 		async def callback(self, inter: disnake.MessageInteraction):
-			for i in self.values:
+			for i in range(self.values):
 				self.votes[i] += 1
 			embed = disnake.Embed(
 				title=self.title, description=f"Total votes: {self.total_votes}")
