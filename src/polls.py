@@ -135,7 +135,7 @@ class PollsCog(commands.Cog):
 				name=f"Poll ran by {inter.author.name}",
 				icon_url=author_avatar
 			)
-		await inter.send(content=None, embed=embed, view=self.PollView(poll_options, title, min_choices, max_choices, poll_id))
+		await inter.send(content=None, embed=embed, view=self.PollView(poll_options, title, inter.author.name, author_avatar, min_choices, max_choices, poll_id))
 
 	def autocomplete_title(self, inter: disnake.ApplicationCommandInteraction, user_input: str):
 		guild_polls = polls.find_many({"guild_id": inter.guild.id})
@@ -160,7 +160,7 @@ class PollsCog(commands.Cog):
 				try:
 					#PollView(poll_options, title, min_choices, max_choices, poll_id))
 					self.bot.add_view(self.PollView(
-						i["options"], i["title"], i["min_choices"], i["max_choices"], i["min_choices"], i["max_choices"], i["_id"]
+						i["options"], i["title"], i["min_choices"], i["author_name"], i["author_avatar"], i["max_choices"], i["min_choices"], i["max_choices"], i["_id"]
 					))
 					sucessful_additions += 1
 				except Exception as e:
