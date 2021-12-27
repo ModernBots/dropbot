@@ -31,7 +31,6 @@ class PollsCog(commands.Cog):
 
 	class PollDropdown(disnake.ui.Select):
 		def __init__(self, options, title, min_choices, max_choices, poll_id):
-			self.custom_id = str(poll_id)
 			self.poll_options = []
 			self.title = title
 			# self.author = author
@@ -67,7 +66,7 @@ class PollsCog(commands.Cog):
 		def __init__(self, poll_options, title, min_choices, max_choices, poll_id):
 			super().__init__(timeout=None)
 			self.add_item(PollsCog.PollDropdown(
-				poll_options, title, min_choices, max_choices, poll_id))
+				poll_options, title, min_choices, max_choices, poll_id, custom_id=str(poll_id)))
 
 	@commands.slash_command(description="Make a poll. Seperate each option with a comma.")
 	async def poll(
