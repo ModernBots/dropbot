@@ -70,15 +70,14 @@ class PollsCog(commands.Cog):
 			embed = disnake.Embed(
 				title=self.title, description=f"Total votes: {total_votes}")
 			for count, i in enumerate(self.poll_options):
-				blocks_filled = "🟦" * int((self.votes[count]/total_votes)*5)
+				fill_block = "🟩" if int(self.votes[count]) == max(self.votes) else "🟦"		
+				blocks_filled = fill_block * int((self.votes[count]/total_votes)*5)
 				blocks_empty = "⬜" * int(5-(self.votes[count]/total_votes)*5)
 				total_blocks = f"{blocks_filled}{blocks_empty}"
 				if len(total_blocks) < 5:
 					total_blocks += "⬜"
 				if int(self.votes[count]) >= 1 and total_blocks == "⬜⬜⬜⬜⬜":
 					total_blocks = "🟥⬜⬜⬜⬜"
-				if int(self.votes[count]) == max(self.votes):
-					total_blocks = "🟩🟩🟩🟩🟩"
 				embed.add_field(
 					name=i,
 					value=f"{total_blocks} ({self.votes[count]})"
