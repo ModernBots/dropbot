@@ -30,10 +30,10 @@ class PollsCog(commands.Cog):
 	# https://github.com/DisnakeDev/disnake/blob/master/examples/views/persistent.py
 
 	class PollDropdown(disnake.ui.Select):
-		def __init__(self, options, title, min_choices, max_choices, author):
+		def __init__(self, options, title, min_choices, max_choices):
 			self.poll_options = []
 			self.title = title
-			self.author = author
+			# self.author = author
 			self.votes = PollsCog.get_poll()["votes"]
 			self.total_votes = []
 			for count, i in enumerate(options):
