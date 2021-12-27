@@ -127,6 +127,15 @@ class PollsCog(commands.Cog):
 		polls.delete_one({"message_id": inter.id})
 		await inter.send("Poll closed.")
 
+	@commands.Cog.listener()
+	async def on_ready(self):
+		if not self.persistent_polls_added:
+			for i in polls.find_many():
+				self.add_view(PollsCog.PollView(
+					i["options"], i["title"], i["min_choices"], i["max_choices"], i["_id"]
+				))
+			self.persistent_polls_added = True
+			print("\nAdded persistent polls!\n")
 
 def setup(bot):
 	bot.add_cog(PollsCog(bot))
