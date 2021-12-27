@@ -92,17 +92,14 @@ class InfoCog(commands.Cog):
 
 __Use `/poll` to make a poll.__
 Options should be seperated by commas, and a poll can have up to 25 options.
-The poll author can use `/close_poll` to close a poll they made.
+The poll author or a server moderator can use `/close_poll` to close a poll.
 
-__For role menus and role buttons, you must have the **Manage Roles** permission in order to run the commands.__
 
 __Use `/role_menu` to make a role menu.__
+You must have the **Manage Roles** permission in order to run this command.
 You have to choose one role when making a role menu, and can add more roles to a role menu by using `/add_role_to_menu`.
 Likewise, you can use `/remove_role_from_menu` to remove a role from a menu.
-
-__Use `/role_button` to make a role button.__
-Reccomended for single role assign functions/rule agreement.
-Only one button/role per message.""",
+""",
 			inline=False
 		)
 		embed.add_field(
