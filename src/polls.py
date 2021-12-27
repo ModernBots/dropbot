@@ -52,7 +52,7 @@ class PollsCog(commands.Cog):
 				self.votes[i][0] += 1
 			total_votes = 0
 			for i in self.votes:
-				total_votes += i
+				total_votes += i[0]
 			embed = disnake.Embed(
 				title=self.title, description=f"Total votes: {total_votes}")
 			for i in self.poll_options:
