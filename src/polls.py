@@ -16,14 +16,29 @@ class PollsCog(commands.Cog):
 		self.bot = bot
 		self.persistent_polls_added = False
 
-	def create_poll(self, guild_id: int, author_id: int, title: str, options: list, votes: list, voted: list):
+	def create_poll(
+		self, 
+		guild_id: int, 
+		author_id: int, 
+		author_name: str,
+		author_avatar: str,
+		title: str, 
+		options: list, 
+		votes: list, 
+		voted: list, 
+		min_choices: int, 
+		max_choices: int):
 		data = {
 			"guild_id": guild_id,
 			"author_id": author_id,
+			"author_name": author_name,
+			"author_avatar": author_avatar,
 			"title": title,
 			"options": options,
 			"votes": votes,
 			"voted": voted,
+			"min_choices": min_choices,
+			"max_choices": max_choices
 		}
 		return polls.insert_one(data).inserted_id
 
@@ -33,16 +48,16 @@ class PollsCog(commands.Cog):
 	# https://github.com/DisnakeDev/disnake/blob/master/examples/views/persistent.py
 
 	class PollDropdown(disnake.ui.Select):
-		def __init__(self, options, title, min_choices, max_choices, poll_id):
+		def __init__(self, options, title, author_name, author_avatar, min_choices, max_choices, poll_id):
 			self.poll_options = []
 			self.title = title
 			self.poll_id = poll_id
 			self.str_options = options
-			# self.author = author
+			self.author_name = author_name
+			self.author_avatar = author_avatar
 			self.votes = PollsCog.get_poll(str(poll_id))["votes"]
 			self.voted = PollsCog.get_poll(str(poll_id))["voted"]
-			for count, i in enumerate(options):
-				vote_count = self.votes[count]
+			for i in options:
 				self.poll_options.append(disnake.SelectOption(label=i))
 			super().__init__(
 				placeholder=f"Vote in {title}",
@@ -82,13 +97,17 @@ class PollsCog(commands.Cog):
 					name=i,
 					value=f"{total_blocks} ({self.votes[count]})"
 				)
+				embed.set_author(
+					name=f"Poll ran by {self.author_name}",
+					icon_url=self.author_avatar
+				)
 			await inter.response.edit_message(embed=embed)
 
 	class PollView(disnake.ui.View):
-		def __init__(self, poll_options, title, min_choices, max_choices, poll_id):
+		def __init__(self, poll_options, title, author_name, author_avatar, min_choices, max_choices, poll_id):
 			super().__init__(timeout=None)
 			self.add_item(PollsCog.PollDropdown(
-				poll_options, title, min_choices, max_choices, poll_id))
+				poll_options, title, author_name, author_avatar, min_choices, max_choices, poll_id))
 
 	@commands.slash_command(description="Make a poll. Seperate each option with a comma.")
 	async def poll(
@@ -104,12 +123,17 @@ class PollsCog(commands.Cog):
 		votes = []
 		for i in poll_options:
 			votes.append(0)
-		poll_id = self.create_poll(inter.guild.id, inter.author.id, title, poll_options, votes, [])
+		author_avatar = inter.author.default_avatar.url if inter.author.avatar.url == None else inter.author.avatar.url
+		poll_id = self.create_poll(inter.guild.id, inter.author.id, inter.author.name, author_avatar, title, poll_options, votes, [], min_choices, max_choices)
 		embed = disnake.Embed(title=title)
 		for i in poll_options:
 			embed.add_field(
 				name=i,
 				value="⬜⬜⬜⬜⬜ (0)"
+			)
+			embed.set_author(
+				name=f"Poll ran by {inter.author.name}",
+				icon_url=author_avatar
 			)
 		await inter.send(content=None, embed=embed, view=self.PollView(poll_options, title, min_choices, max_choices, poll_id))
 
@@ -134,12 +158,14 @@ class PollsCog(commands.Cog):
 			sucessful_additions = 0
 			for i in polls.find():
 				try:
+					#PollView(poll_options, title, min_choices, max_choices, poll_id))
 					self.bot.add_view(self.PollView(
-						i["options"], i["title"], i["min_choices"], i["max_choices"], i["_id"]
+						i["options"], i["title"], i["min_choices"], i["max_choices"], i["min_choices"], i["max_choices"], i["_id"]
 					))
 					sucessful_additions += 1
 				except Exception as e:
-					print(e)
+					# print(e)
+					pass
 			self.persistent_polls_added = True
 			print(f"Added {sucessful_additions} persistent polls!\n")
 
