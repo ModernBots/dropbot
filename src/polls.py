@@ -56,6 +56,7 @@ class PollsCog(commands.Cog):
 			votes_to_update = [x for x in range(len(self.values)) if self.values[x] in self.poll_options]
 			for i in votes_to_update:
 				self.votes[i] += 1
+			print(self.votes)
 			total_votes = 0
 			for i in self.votes:
 				total_votes += i
