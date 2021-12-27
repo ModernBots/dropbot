@@ -51,7 +51,7 @@ class PollsCog(commands.Cog):
 
 		async def callback(self, inter: disnake.MessageInteraction):
 			if inter.author.id in self.voted:
-				return await inter.channel.send(f"You have already voted in this poll!")
+				return await inter.channel.send(f"You have already voted in this poll!", ephemeral=True)
 			self.voted.append(inter.author.id)
 			votes_to_update = [x for x in range(len(self.values)) if self.values[x] in self.values]
 			for i in votes_to_update:
@@ -61,6 +61,7 @@ class PollsCog(commands.Cog):
 				total_votes += i
 			polls.update_one({"_id": self.poll_id}, {"$set": {"votes": self.votes}})
 			polls.update_one({"_id": self.poll_id}, {"$set": {"voted": self.voted}})
+			print(self.votes)
 			embed = disnake.Embed(
 				title=self.title, description=f"Total votes: {total_votes}")
 			for count, i in enumerate(self.poll_options):
