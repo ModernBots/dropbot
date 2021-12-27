@@ -15,12 +15,12 @@ class PollsCog(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
-	def create_poll(self, guild_id: int, author_id: int, options: list):
+	def create_poll(self, guild_id: int, author_id: int, options: list, votes: list):
 		data = {
 			"guild_id": guild_id,
 			"author_id": author_id,
 			"options": options,
-			"votes": []
+			"votes": votes
 		}
 		return polls.insert_one(data).inserted_id
 
@@ -83,8 +83,7 @@ class PollsCog(commands.Cog):
 		votes = []
 		for i in poll_options:
 			votes.append(0)
-		polls.update_one({"_id": ObjectId(inter.message.id)}, {"$set": {"votes": votes}})
-		poll_id = self.create_poll(inter.guild.id, inter.author.id, poll_options)
+		poll_id = self.create_poll(inter.guild.id, inter.author.id, poll_options, votes)
 		embed = disnake.Embed(title=title)
 		for i in poll_options:
 			embed.add_field(
