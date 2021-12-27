@@ -2,6 +2,7 @@ import datetime
 
 import disnake
 import pymongo
+from bson.objectid import ObjectId
 from disnake.ext import commands
 
 mongoclient = pymongo.MongoClient()
@@ -14,16 +15,17 @@ class PollsCog(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
-	def create_poll(self, guild_id: int, message_id: int, options: list):
+	def create_poll(self, guild_id: int, author_id: int, options: list):
 		data = {
 			"guild_id": guild_id,
-			"message_id": message_id,
+			"author_id": author_id,
+			"options": options,
 			"votes": []
 		}
-		if polls.find_one({"message_id": message_id}) != None:
-			return False
-		polls.insert_one(data)
-		return True
+		return polls.insert_one(data).inserted_id
+
+	def get_poll(post_id):
+		return polls.find_one({"_id": ObjectId(post_id)})
 
 	# https://github.com/DisnakeDev/disnake/blob/master/examples/views/persistent.py
 
@@ -32,7 +34,7 @@ class PollsCog(commands.Cog):
 			self.poll_options = []
 			self.title = title
 			self.author = author
-			self.votes = polls.find_one()  # TODO
+			self.votes = PollsCog.get_poll()["votes"]
 			self.total_votes = []
 			for count, i in enumerate(options):
 				vote_count = self.votes[count]
@@ -62,10 +64,10 @@ class PollsCog(commands.Cog):
 			await inter.response.edit_message(embed=embed)
 
 	class PollView(disnake.ui.View):
-		def __init__(self, poll_options, title, min_choices, max_choices):
+		def __init__(self, poll_options, title, min_choices, max_choices, poll_id):
 			super().__init__(timeout=None)
 			self.add_item(PollsCog.PollDropdown(
-				poll_options, title, min_choices, max_choices))
+				poll_options, title, min_choices, max_choices), custom_id=str(poll_id))
 
 	@commands.slash_command(description="Make a poll. Seperate each option with a comma.")
 	async def poll(
@@ -78,14 +80,18 @@ class PollsCog(commands.Cog):
 		poll_options = options.split(",")[:25]
 		[i.strip() for i in poll_options]
 		[i[:25] for i in poll_options]
-		self.create_poll(inter.guild.id, inter.id, poll_options, inter.author)
+		votes = []
+		for i in poll_options:
+			votes.append(0)
+		polls.update_one({"_id": ObjectId(inter.message.id)}, {"$set": {"votes": votes}})
+		poll_id = self.create_poll(inter.guild.id, inter.author.id, poll_options)
 		embed = disnake.Embed(title=title)
 		for i in poll_options:
 			embed.add_field(
 				name=i,
 				value="⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ (0)"
 			)
-		await inter.send(content=None, embed=embed, view=self.PollView(poll_options, title, min_choices, max_choices))
+		await inter.send(content=None, embed=embed, view=self.PollView(poll_options, title, min_choices, max_choices, poll_id))
 
 	def autocomplete_title(self, inter: disnake.ApplicationCommandInteraction, user_input: str):
 		guild_polls = polls.find_many({"guild_id": inter.guild.id})
