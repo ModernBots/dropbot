@@ -53,7 +53,7 @@ class PollsCog(commands.Cog):
 			if inter.author.id in self.voted:
 				return await inter.send(f"You have already voted in this poll!", ephemeral=True)
 			self.voted.append(inter.author.id)
-			votes_to_update = [x for x in range(len(self.values)) if self.values[x] in self.values]
+			votes_to_update = [x for x in range(len(self.values)) if self.values[x] in self.poll_options]
 			for i in votes_to_update:
 				self.votes[i] += 1
 			total_votes = 0
