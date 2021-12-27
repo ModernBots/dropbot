@@ -136,6 +136,7 @@ class PollsCog(commands.Cog):
 					self.bot.add_view(self.PollView(
 						i["options"], i["title"], i["min_choices"], i["max_choices"], i["_id"]
 					))
+					print(i)
 				except:
 					pass
 			self.persistent_polls_added = True
