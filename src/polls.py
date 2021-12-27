@@ -49,15 +49,18 @@ class PollsCog(commands.Cog):
 		async def callback(self, inter: disnake.MessageInteraction):
 			votes_to_update = [x for x in range(len(self.values)) if self.values[x] in self.values]
 			for i in votes_to_update:
-				self.votes[i] += 1
+				self.votes[i][0] += 1
 			total_votes = 0
 			for i in self.votes:
 				total_votes += i
 			embed = disnake.Embed(
 				title=self.title, description=f"Total votes: {total_votes}")
+			for i in self.poll_options:
+				if i[1] == inter.author.id:
+					return await inter.send("You already voted in this poll!", ephemeral=True)
 			for count, i in enumerate(self.poll_options):
-				blocks_filled = "🟦" * int((self.votes[count]/total_votes)*5)
-				blocks_empty = "⬜" * int(5-(self.votes[count]/total_votes)*5)
+				blocks_filled = "🟦" * int((self.votes[count][0]/total_votes)*5)
+				blocks_empty = "⬜" * int(5-(self.votes[count][0]/total_votes)*5)
 				embed.add_field(
 					name=i,
 					value=f"{blocks_filled}{blocks_empty} ({self.votes[count]})"
@@ -83,7 +86,7 @@ class PollsCog(commands.Cog):
 		[i[:25] for i in poll_options]
 		votes = []
 		for i in poll_options:
-			votes.append(0)
+			votes.append([0, inter.author.id])
 		poll_id = self.create_poll(inter.guild.id, inter.author.id, poll_options, votes)
 		embed = disnake.Embed(title=title)
 		for i in poll_options:
