@@ -53,16 +53,15 @@ class PollsCog(commands.Cog):
 			if inter.author.id in self.voted:
 				return await inter.send(f"You have already voted in this poll!", ephemeral=True)
 			self.voted.append(inter.author.id)
+			print(self.values)
 			votes_to_update = [x for x in range(len(self.values)) if self.values[x] in self.poll_options]
 			for i in votes_to_update:
 				self.votes[i] += 1
-			print(self.votes)
 			total_votes = 0
 			for i in self.votes:
 				total_votes += i
 			polls.update_one({"_id": self.poll_id}, {"$set": {"votes": self.votes}})
 			polls.update_one({"_id": self.poll_id}, {"$set": {"voted": self.voted}})
-			print(self.votes)
 			embed = disnake.Embed(
 				title=self.title, description=f"Total votes: {total_votes}")
 			for count, i in enumerate(self.poll_options):
