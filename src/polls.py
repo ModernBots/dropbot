@@ -131,15 +131,17 @@ class PollsCog(commands.Cog):
 	@commands.Cog.listener()
 	async def on_ready(self):
 		if not self.persistent_polls_added:
+			sucessful_additions = 0
 			for i in polls.find():
 				try:
 					self.bot.add_view(self.PollView(
 						i["options"], i["title"], i["min_choices"], i["max_choices"], i["_id"]
 					))
+					sucessful_additions += 1
 				except Exception as e:
 					pass
 			self.persistent_polls_added = True
-			print("Added persistent polls!\n")
+			print(f"Added {sucessful_additions} persistent polls!\n")
 
 def setup(bot):
 	bot.add_cog(PollsCog(bot))
