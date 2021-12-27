@@ -55,7 +55,7 @@ class PollsCog(commands.Cog):
 				total_votes += i
 			embed = disnake.Embed(
 				title=self.title, description=f"Total votes: {total_votes}")
-			for count, i in enumerate(self.options):
+			for count, i in enumerate(self.poll_options):
 				blocks_filled = "🟦" * int((self.votes[count]/total_votes)*5)
 				blocks_empty = "⬜" * int(5-(self.votes[count]/total_votes)*5)
 				embed.add_field(
