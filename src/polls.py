@@ -138,7 +138,7 @@ class PollsCog(commands.Cog):
 		await inter.send(content=None, embed=embed, view=self.PollView(poll_options, title, inter.author.name, author_avatar, min_choices, max_choices, poll_id))
 
 	def autocomplete_title(self, inter: disnake.ApplicationCommandInteraction, user_input: str):
-		guild_polls = polls.find_many({"guild_id": inter.guild.id})
+		guild_polls = polls.find({"guild_id": inter.guild.id})
 		open_polls = []
 		for i in guild_polls:
 			open_polls.append(guild_polls["title"])
@@ -149,7 +149,7 @@ class PollsCog(commands.Cog):
 		# Condition: must be mod or poll author
 		# TODO: Get message
 		# message.edit_original(view=None)
-		polls.delete_one({"message_id": inter.id})
+		polls.delete_one({"title": title})
 		await inter.send("Poll closed.")
 
 	@commands.Cog.listener()
