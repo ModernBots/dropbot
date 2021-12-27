@@ -1,7 +1,7 @@
 import asyncio
 
 import disnake
-from disnake import commands, tasks
+from disnake.ext import commands, tasks
 from dotenv import dotenv_values
 # import topgg
 # from statcord import StatcordClient
