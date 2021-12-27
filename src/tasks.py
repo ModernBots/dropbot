@@ -6,8 +6,8 @@ from dotenv import dotenv_values
 # import topgg
 # from statcord import StatcordClient
 
-topggtoken = dotenv_values(".env")["TOPGG"]
-statcordkey = dotenv_values(".env")["STATCORD"]
+# topggtoken = dotenv_values(".env")["TOPGG"]
+# statcordkey = dotenv_values(".env")["STATCORD"]
 
 
 class Tasks(commands.Cog):
