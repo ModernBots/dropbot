@@ -160,7 +160,7 @@ class PollsCog(commands.Cog):
 				try:
 					#PollView(poll_options, title, min_choices, max_choices, poll_id))
 					self.bot.add_view(self.PollView(
-						i["options"], i["title"], i["min_choices"], i["author_name"], i["author_avatar"], i["max_choices"], i["min_choices"], i["max_choices"], i["_id"]
+						i["options"], i["title"], i["author_name"], i["author_avatar"], i["min_choices"], i["max_choices"], i["_id"]
 					))
 					sucessful_additions += 1
 				except Exception as e:
