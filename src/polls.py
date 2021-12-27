@@ -14,6 +14,7 @@ polls = db.polls
 class PollsCog(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
+		self.persistent_polls_added = False
 
 	def create_poll(self, guild_id: int, author_id: int, options: list, votes: list, voted: list):
 		data = {
@@ -131,7 +132,7 @@ class PollsCog(commands.Cog):
 	async def on_ready(self):
 		if not self.persistent_polls_added:
 			for i in polls.find_many():
-				self.add_view(PollsCog.PollView(
+				self.add_view(self.PollView(
 					i["options"], i["title"], i["min_choices"], i["max_choices"], i["_id"]
 				))
 			self.persistent_polls_added = True
