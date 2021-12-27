@@ -57,7 +57,7 @@ class PollsCog(commands.Cog):
 				title=self.title, description=f"Total votes: {total_votes}")
 			for count, i in enumerate(self.options):
 				blocks_filled = "🟦" * int((self.votes[count]/total_votes)*5)
-				blocks_empty = "⬜" * int((5-(self.votes[count]/total_votes))*5)
+				blocks_empty = "⬜" * int(5-(self.votes[count]/total_votes)*5)
 				embed.add_field(
 					name=i,
 					value=f"{blocks_filled}{blocks_empty} ({self.votes[count]})"
