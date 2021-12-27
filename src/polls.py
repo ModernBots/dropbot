@@ -70,9 +70,16 @@ class PollsCog(commands.Cog):
 			for count, i in enumerate(self.poll_options):
 				blocks_filled = "🟦" * int((self.votes[count]/total_votes)*5)
 				blocks_empty = "⬜" * int(5-(self.votes[count]/total_votes)*5)
+				total_blocks = f"{blocks_filled}{blocks_empty}"
+				if len(total_blocks) < 5:
+					total_blocks += "⬜"
+				if int((self.votes[count]/total_votes)*5) >= 1 and total_blocks == "⬜⬜⬜⬜⬜":
+					total_blocks = "🟥⬜⬜⬜⬜"
+				if int(self.votes[count]) == max(self.votes):
+					total_blocks = "🟩🟩🟩🟩🟩"
 				embed.add_field(
 					name=i,
-					value=f"{blocks_filled}{blocks_empty} ({self.votes[count]})"
+					value=f"{total_blocks} ({self.votes[count]})"
 				)
 			await inter.response.edit_message(embed=embed)
 
