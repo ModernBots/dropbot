@@ -35,6 +35,7 @@ class PollsCog(commands.Cog):
 			self.poll_options = []
 			self.title = title
 			self.poll_id = poll_id
+			self.options = options
 			# self.author = author
 			self.votes = PollsCog.get_poll(str(poll_id))["votes"]
 			self.voted = PollsCog.get_poll(str(poll_id))["voted"]
@@ -55,9 +56,8 @@ class PollsCog(commands.Cog):
 			self.voted.append(inter.author.id)
 			votes_to_update = []
 			for i in self.values:
-				index = self.poll_options.index(i)
+				index = self.options.index(i)
 				votes_to_update.append(index)
-			votes_to_update = [x for x in range(len(self.values)) if self.values[x] in self.poll_options]
 			for i in votes_to_update:
 				self.votes[i] += 1
 			total_votes = 0
