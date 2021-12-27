@@ -51,7 +51,7 @@ class PollsCog(commands.Cog):
 
 		async def callback(self, inter: disnake.MessageInteraction):
 			if inter.author.id in self.voted:
-				return await inter.channel.send(f"You have already voted in this poll!", ephemeral=True)
+				return await inter.send(f"You have already voted in this poll!", ephemeral=True)
 			self.voted.append(inter.author.id)
 			votes_to_update = [x for x in range(len(self.values)) if self.values[x] in self.values]
 			for i in votes_to_update:
