@@ -31,7 +31,7 @@ class PollsCog(commands.Cog):
 
 	class PollDropdown(disnake.ui.Select):
 		def __init__(self, options, title, min_choices, max_choices, poll_id):
-			super.custom_id = str(poll_id)
+			self.custom_id = str(poll_id)
 			self.poll_options = []
 			self.title = title
 			# self.author = author
