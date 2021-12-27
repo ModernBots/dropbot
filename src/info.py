@@ -59,7 +59,7 @@ class InfoCog(commands.Cog):
 			))
 
 
-	commands.slash_command(description="Gives some helpful information about the bot.")
+	@commands.slash_command(description="Gives some helpful information about the bot.")
 	async def info(self, inter: disnake.ApplicationCommandInteraction):
 		# botinfo = await self.bot.topggpy.get_bot_info()
 		# votes = botinfo["monthly_points"]
