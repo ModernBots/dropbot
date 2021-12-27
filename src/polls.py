@@ -139,7 +139,7 @@ class PollsCog(commands.Cog):
 					))
 					sucessful_additions += 1
 				except Exception as e:
-					pass
+					print(e)
 			self.persistent_polls_added = True
 			print(f"Added {sucessful_additions} persistent polls!\n")
 
