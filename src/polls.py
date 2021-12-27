@@ -50,8 +50,11 @@ class PollsCog(commands.Cog):
 			votes_to_update = [x for x in range(len(self.values)) if self.values[x] in self.values]
 			for i in votes_to_update:
 				self.votes[i] += 1
+			total_votes = []
+			for i in self.votes:
+				total_votes += i
 			embed = disnake.Embed(
-				title=self.title, description=f"Total votes: {self.total_votes}")
+				title=self.title, description=f"Total votes: {total_votes}")
 			for count, i in enumerate(self.options):
 				blocks_filled = "🟦" * int((self.votes[count]/self.total_votes)*5)
 				blocks_empty = "⬜" * int((5-(self.votes[count]/self.total_votes))*5)
