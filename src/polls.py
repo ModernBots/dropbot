@@ -75,7 +75,7 @@ class PollsCog(commands.Cog):
 				total_blocks = f"{blocks_filled}{blocks_empty}"
 				if len(total_blocks) < 5:
 					total_blocks += "⬜"
-				if int((self.votes[count]/total_votes)*5) >= 1 and total_blocks == "⬜⬜⬜⬜⬜":
+				if int(self.votes[count]) >= 1 and total_blocks == "⬜⬜⬜⬜⬜":
 					total_blocks = "🟥⬜⬜⬜⬜"
 				if int(self.votes[count]) == max(self.votes):
 					total_blocks = "🟩🟩🟩🟩🟩"
