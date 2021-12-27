@@ -52,8 +52,8 @@ class PollsCog(commands.Cog):
 			embed = disnake.Embed(
 				title=self.title, description=f"Total votes: {self.total_votes}")
 			for count, i in enumerate(self.options):
-				blocks_filled = "🟦" * int((self.votes[count]/self.total_votes)*10)
-				blocks_empty = "⬜" * int((10-(self.votes[count]/self.total_votes))*10)
+				blocks_filled = "🟦" * int((self.votes[count]/self.total_votes)*5)
+				blocks_empty = "⬜" * int((5-(self.votes[count]/self.total_votes))*5)
 				embed.add_field(
 					name=i,
 					value=f"{blocks_filled}{blocks_empty} ({self.votes[count]})"
@@ -85,7 +85,7 @@ class PollsCog(commands.Cog):
 		for i in poll_options:
 			embed.add_field(
 				name=i,
-				value="⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ (0)"
+				value="⬜⬜⬜⬜⬜ (0)"
 			)
 		await inter.send(content=None, embed=embed, view=self.PollView(poll_options, title, min_choices, max_choices, poll_id))
 
