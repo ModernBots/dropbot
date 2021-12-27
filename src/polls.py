@@ -35,12 +35,11 @@ class PollsCog(commands.Cog):
 			self.title = title
 			# self.author = author
 			self.votes = PollsCog.get_poll(str(poll_id))["votes"]
-			self.total_votes = []
 			for count, i in enumerate(options):
 				vote_count = self.votes[count]
 				self.poll_options.append(disnake.SelectOption(
                                     label=i,
-                                    description=f"{self.votes} vote{'' if len(vote_count) == 1 else 's'}"
+                                    description=f"{self.votes} vote{'' if vote_count == 1 else 's'}"
                                 ))
 			super().__init__(
 				placeholder=title,
