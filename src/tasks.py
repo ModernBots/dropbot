@@ -4,10 +4,10 @@ import disnake
 from disnake.ext import commands, tasks
 from dotenv import dotenv_values
 # import topgg
-# from statcord import StatcordClient
+from statcord import StatcordClient
 
 # topggtoken = dotenv_values(".env")["TOPGG"]
-# statcordkey = dotenv_values(".env")["STATCORD"]
+statcordkey = dotenv_values(".env")["STATCORD"]
 
 
 class Tasks(commands.Cog):
@@ -15,7 +15,7 @@ class Tasks(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 		# self.bot.topggpy = topgg.DBLClient(bot, topggtoken, autopost=True, post_shard_count=True)
-		# self.bot.statcord_client = StatcordClient(bot, statcordkey)
+		self.bot.statcord_client = StatcordClient(bot, statcordkey)
 		# self.update_stats.start()
 		self.update_status.start()
 
