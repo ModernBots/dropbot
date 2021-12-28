@@ -108,7 +108,7 @@ class PollsCog(commands.Cog):
 				winner = "✅" if int(self.votes[count]) == max(self.votes) else ""
 				embed.add_field(
 					name=i,
-					value=f"{total_blocks} ({self.votes[count]}) {winner}"
+					value=f"{total_blocks} ({self.votes[count]} {winner})"
 				)
 				embed.set_author(
 					name=f"Poll ran by {self.author_name}",
