@@ -12,17 +12,40 @@ class RoleMenusCog(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
-	def create_role_menu(guild_id: int, channel_id: int, message_id: int, roles: list):
+	# `roles` structure:
+	# {
+	# 	"role_id": {
+	# 		"name": role_name,
+	# 		"who": [user_id, user_id, ...]
+	# 	}
+	# }
+
+	def create_role_menu(
+		self,
+		guild_id: int,
+		author_id: int,
+		author_name: str,
+		author_avatar: str,
+		title: str,
+		description: str,
+		roles: dict, # see above comment for structure
+		min_choices: int,
+		max_choices: int):
 		data = {
 			"guild_id": guild_id,
-			"channel_id": channel_id,
-			"message_id": message_id,
-			"roles": roles
+			"author_id": author_id,
+			"author_name": author_name,
+			"author_avatar": author_avatar,
+			"title": title,
+			"description": description,
+			"roles": roles,
+			"min_choices": min_choices,
+			"max_choices": max_choices
 		}
-		if role_menus.find_one({"message_id": message_id}) != None:
-			return False
-		role_menus.insert_one(data)
-		return True
+		return polls.insert_one(data).inserted_id
+
+	def get_role_menu(post_id):
+		return polls.find_one({"_id": ObjectId(post_id)})
 
 	def has_role_permissions():
 		pass
