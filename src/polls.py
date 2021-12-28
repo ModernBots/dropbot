@@ -45,7 +45,6 @@ class PollsCog(commands.Cog):
 	def get_poll(post_id):
 		return polls.find_one({"_id": ObjectId(post_id)})
 
-	# https://github.com/DisnakeDev/disnake/blob/master/examples/views/persistent.py
 
 	class PollDropdown(disnake.ui.Select):
 		def __init__(self, options, title, author_name, author_avatar, min_choices, max_choices, poll_id):
