@@ -28,7 +28,3 @@ For role menus and role buttons, you must have the **Manage Roles** permission i
 Use `/role_menu` to make a role menu.
 You have to choose one role when making a role menu, and can add more roles to a role menu by using `/add_role_to_menu`.
 Likewise, you can use `/remove_role_from_menu` to remove a role from a menu.
-
-Use `/role_button` to make a role button.
-Reccomended for single role assign functions/rule agreement.
-Only one button/role per message.
