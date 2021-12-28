@@ -98,7 +98,10 @@ class PollsCog(commands.Cog):
 				else:
 					filled_partial = "<:poll_full:925262451115687957>"
 				blocks_filled = f"{'<:poll_full:925262451115687957>' * int(filled)}{filled_partial}"
-				blocks_empty = "<:poll_empty:925262451287670794>" * (5 - len(blocks_filled))
+				block_count = int(filled)
+				if filled_partial != "":
+					block_count += 1
+				blocks_empty = "<:poll_empty:925262451287670794>" * (5 - block_count)
 				total_blocks = f"{blocks_filled}{blocks_empty}"
 				if int(self.votes[count]) >= 1 and total_blocks == "<:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794>":
 					total_blocks = "<:poll_one_quarter:925262450956316673><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794>"
