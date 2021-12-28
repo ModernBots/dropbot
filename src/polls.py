@@ -139,7 +139,7 @@ class PollsCog(commands.Cog):
 		for i in poll_options:
 			embed.add_field(
 				name=i,
-				value="⬜⬜⬜⬜⬜ (0)"
+				value="<:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794> (0)"
 			)
 			embed.set_author(
 				name=f"Poll ran by {inter.author.name}",
