@@ -9,7 +9,7 @@ bot = commands.AutoShardedBot(
 	intents=intents,
 	chunk_guilds_at_startup=False,
 )
-extensions = ["polls", "rolemenus", "info", "tasks"] # errorhandler
+extensions = ["polls", "rolemenus", "errorhandler", "info", "tasks"] # errorhandler
 for i in extensions:
 	bot.load_extension(i)
 bot.remove_command("help")

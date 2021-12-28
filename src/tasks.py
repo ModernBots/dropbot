@@ -15,7 +15,7 @@ class Tasks(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 		# self.bot.topggpy = topgg.DBLClient(bot, topggtoken, autopost=True, post_shard_count=True)
-		# self.bot.statcord_client = StatcordClient(bot, statcordkey)
+		self.bot.statcord_client = StatcordClient(bot, statcordkey)
 		# self.update_stats.start()
 		self.update_status.start()
 
