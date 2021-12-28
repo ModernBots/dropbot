@@ -105,10 +105,10 @@ class PollsCog(commands.Cog):
 				total_blocks = f"{blocks_filled}{blocks_empty}"
 				if int(self.votes[count]) >= 1 and total_blocks == "<:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794>":
 					total_blocks = "<:poll_one_quarter:925262450956316673><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794>"
-				winner = "✅" if int(self.votes[count]) == max(self.votes) else ""
+				winner = " ✅" if int(self.votes[count]) == max(self.votes) else ""
 				embed.add_field(
 					name=i,
-					value=f"{total_blocks} ({self.votes[count]} {winner})"
+					value=f"{total_blocks} ({self.votes[count]}{winner})"
 				)
 				embed.set_author(
 					name=f"Poll ran by {self.author_name}",
