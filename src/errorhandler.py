@@ -7,7 +7,7 @@ class CommandErrorHandler(commands.Cog):
 		self.bot = bot
 
 	@commands.Cog.listener()
-	async def on_command_error(inter, error):
+	async def on_command_error(self, inter, error):
 		if hasattr(inter, "on_error"):
 			return
 		ignored = (commands.errors.CommandNotFound,
