@@ -17,16 +17,16 @@ class PollsCog(commands.Cog):
 		self.persistent_polls_added = False
 
 	def create_poll(
-		self, 
-		guild_id: int, 
-		author_id: int, 
+		self,
+		guild_id: int,
+		author_id: int,
 		author_name: str,
 		author_avatar: str,
-		title: str, 
-		options: list, 
-		votes: list, 
-		voted: list, 
-		min_choices: int, 
+		title: str,
+		options: list,
+		votes: list,
+		voted: list,
+		min_choices: int,
 		max_choices: int):
 		data = {
 			"guild_id": guild_id,
@@ -85,17 +85,27 @@ class PollsCog(commands.Cog):
 			embed = disnake.Embed(
 				title=self.title, description=f"Total votes: {total_votes}")
 			for count, i in enumerate(self.poll_options):
-				fill_block = "🟩" if int(self.votes[count]) == max(self.votes) else "🟦"		
-				blocks_filled = fill_block * int((self.votes[count]/total_votes)*5)
-				blocks_empty = "⬜" * int(5-(self.votes[count]/total_votes)*5)
+				filled = self.votes[count]/total_votes * 5
+				filled_remainder = round(filled % 1, 2)
+				if filled_remainder < 0.1:
+					filled_partial = ""
+				elif filled_remainder <= 0.35:
+					filled_partial = "<:poll_one_quarter:925262450956316673>"
+				elif filled_remainder <= 0.65:
+					filled_partial = "<:poll_half:925262451304439849>"
+				elif filled_remainder <= 0.9:
+					filled_partial = "<:poll_three_quarters:925262451304456232>"
+				else:
+					filled_partial = "<:poll_full:925262451115687957>"
+				blocks_filled = f"{'<:poll_full:925262451115687957>' * int(filled)}{filled_partial}"
+				blocks_empty = "<:poll_empty:925262451287670794>" * (5 - len(blocks_filled))
 				total_blocks = f"{blocks_filled}{blocks_empty}"
-				if len(total_blocks) < 5:
-					total_blocks += "⬜"
-				if int(self.votes[count]) >= 1 and total_blocks == "⬜⬜⬜⬜⬜":
-					total_blocks = "🟥⬜⬜⬜⬜"
+				if int(self.votes[count]) >= 1 and total_blocks == "<:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794>":
+					total_blocks = "<:poll_one_quarter:925262450956316673><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794>"
+				winner = "✅" if int(self.votes[count]) == max(self.votes) else ""
 				embed.add_field(
 					name=i,
-					value=f"{total_blocks} ({self.votes[count]})"
+					value=f"{total_blocks} ({self.votes[count]}) {winner}"
 				)
 				embed.set_author(
 					name=f"Poll ran by {self.author_name}",
