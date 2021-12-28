@@ -14,10 +14,7 @@ class RoleMenusCog(commands.Cog):
 
 	# `roles` structure:
 	# {
-	# 	"role_id": {
-	# 		"name": role_name,
-	# 		"who": [user_id, user_id, ...]
-	# 	}
+	# 	"role_id": [user_id, ...], ...
 	# }
 
 	def create_role_menu(
