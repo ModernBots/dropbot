@@ -149,8 +149,8 @@ class PollsCog(commands.Cog):
 				name=f"Poll ran by {inter.author.name}",
 				icon_url=author_avatar
 			)
-		votes = await PollsCog.get_poll(str(poll_id))["votes"]
-		voted = await PollsCog.get_poll(str(poll_id))["voted"]
+		votes = (await PollsCog.get_poll(str(poll_id)))["votes"]
+		voted = (await PollsCog.get_poll(str(poll_id)))["voted"]
 		poll_sent = await inter.send(content=None, embed=embed, view=self.PollView(poll_options, title, inter.author.name, author_avatar, min_choices, max_choices, poll_id, votes, voted))
 		original_message = await inter.original_message()
 		await polls.update_one({"_id": poll_id}, {"$set": {"message_id": original_message.id}})
