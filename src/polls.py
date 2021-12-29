@@ -155,8 +155,8 @@ class PollsCog(commands.Cog):
 	@commands.slash_command(description="Close a poll.")
 	async def close_poll(self, inter: disnake.ApplicationCommandInteraction, title: str):
 		poll_to_close = polls.find_one({"title": title})
-		message = bot.get_message(poll_to_close["message_id"])
-		message.edit_original(view=None)
+		message = PollsCog.bot.get_message(poll_to_close["message_id"])
+		await message.edit(view=None)
 		polls.delete_one({"title": title})
 		await inter.send("Poll closed.")
 
