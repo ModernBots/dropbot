@@ -6,7 +6,7 @@ from disnake.ext import commands
 from motor import motor_asyncio
 
 # mongoclient = pymongo.MongoClient()
-client = motor_asyncio.AsyncIOMotorClient()
+mongoclient = motor_asyncio.AsyncIOMotorClient()
 db = mongoclient.modernbot
 guild_preferences = db.guild_preferences
 polls = db.polls
