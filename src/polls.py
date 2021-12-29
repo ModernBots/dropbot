@@ -172,7 +172,7 @@ class PollsCog(commands.Cog):
 				guild_polls.append(i["title"])
 			except:
 				pass
-		return [i for i in open_polls if user_input in i]
+		return [i for i in guild_polls if user_input in i]
 
 	@commands.Cog.listener()
 	async def on_ready(self):
