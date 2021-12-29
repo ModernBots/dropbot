@@ -30,6 +30,7 @@ class PollsCog(commands.Cog):
 		max_choices: int):
 		data = {
 			"guild_id": guild_id,
+			"message_id": None,
 			"author_id": author_id,
 			"author_name": author_name,
 			"author_avatar": author_avatar,
@@ -147,7 +148,9 @@ class PollsCog(commands.Cog):
 				name=f"Poll ran by {inter.author.name}",
 				icon_url=author_avatar
 			)
-		await inter.send(content=None, embed=embed, view=self.PollView(poll_options, title, inter.author.name, author_avatar, min_choices, max_choices, poll_id))
+		poll_sent = await inter.send(content=None, embed=embed, view=self.PollView(poll_options, title, inter.author.name, author_avatar, min_choices, max_choices, poll_id))
+		original_message = await inter.original_message()
+		polls.update_one({"_id": poll_id}, {"$set": {"message_id": original_message.id}})
 
 	def autocomplete_title(self, inter: disnake.ApplicationCommandInteraction, user_input: str):
 		guild_polls = polls.find({"guild_id": inter.guild.id})
@@ -158,9 +161,9 @@ class PollsCog(commands.Cog):
 
 	@commands.slash_command(description="Close a poll.")
 	async def close_poll(self, inter: disnake.ApplicationCommandInteraction, title: str = commands.Param(autocomplete=autocomplete_title)):
-		# Condition: must be mod or poll author
-		# TODO: Get message
-		# message.edit_original(view=None)
+		poll_to_close = polls.find_one({"title": title})
+		message = bot.get_message(poll_to_close["message_id"])
+		message.edit_original(view=None)
 		polls.delete_one({"title": title})
 		await inter.send("Poll closed.")
 
