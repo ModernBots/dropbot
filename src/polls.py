@@ -160,7 +160,7 @@ class PollsCog(commands.Cog):
 		poll_to_close = await polls.find_one({"title": title})
 		message = self.bot.get_message(poll_to_close["message_id"])
 		if message == None:
-			message = await inter.channel.(poll_to_close["message_id"])
+			message = await inter.channel.fetch_message(poll_to_close["message_id"])
 		if message == None:
 			return await inter.send("I couldn't find the poll! Please make sure you're running this command in the ***same channel*** as the poll was sent.", ephemeral=True)
 		await message.edit(view=None)
