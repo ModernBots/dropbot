@@ -158,6 +158,9 @@ class PollsCog(commands.Cog):
 	@commands.slash_command(description="Close a poll.")
 	async def close_poll(self, inter: disnake.ApplicationCommandInteraction, title: str):
 		poll_to_close = await polls.find_one({"title": title})
+		author_id = self.bot.get_message(poll_to_close["author_id"])
+		if author_id != inter.author.id or not inter.author.guild_permissions.manage_messages:
+			return await inter.send("You don't have permission to close this poll.", ephemeral=True)
 		message = self.bot.get_message(poll_to_close["message_id"])
 		if message == None:
 			message = await inter.channel.fetch_message(poll_to_close["message_id"])
@@ -182,8 +185,7 @@ class PollsCog(commands.Cog):
 	async def on_ready(self):
 		if not self.persistent_polls_added:
 			sucessful_additions = 0
-			found_polls = polls.find()
-			for i in await found_polls.to_list(length=300):
+			async for i in polls.find():
 				try:
 					self.bot.add_view(self.PollView(
 						i["options"], i["title"], i["author_name"], i["author_avatar"], i["min_choices"], i["max_choices"], i["_id"], i["votes"], i["voted"]
