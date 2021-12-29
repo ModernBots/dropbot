@@ -159,6 +159,10 @@ class PollsCog(commands.Cog):
 	async def close_poll(self, inter: disnake.ApplicationCommandInteraction, title: str):
 		poll_to_close = await polls.find_one({"title": title})
 		message = self.bot.get_message(poll_to_close["message_id"])
+		if message == None:
+			message = await inter.channel.(poll_to_close["message_id"])
+		if message == None:
+			return await inter.send("I couldn't find the poll! Please make sure you're running this command in the ***same channel*** as the poll was sent.", ephemeral=True)
 		await message.edit(view=None)
 		await polls.delete_one({"title": title})
 		await inter.send("Poll closed.")
