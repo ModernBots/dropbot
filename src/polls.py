@@ -171,7 +171,7 @@ class PollsCog(commands.Cog):
 			guild_polls.append(i)
 		# print(f"\n\n\nGP: {guild_polls}\n\n\n")
 		open_polls = []
-		for i in guild_polls[0]:
+		for i in guild_polls:
 			print(i)
 			# open_polls.append(i["title"])
 		return [i for i in open_polls if user_input in i]
