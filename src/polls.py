@@ -64,7 +64,7 @@ class PollsCog(commands.Cog):
 				min_values=min_choices,
 				max_values=max_choices,
 				options=self.poll_options,
-				custom_id=f"poll_{str(poll_id)}"
+				custom_id="poll"
 			)
 
 		async def callback(self, inter: disnake.MessageInteraction):
@@ -186,7 +186,7 @@ class PollsCog(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_interaction(self, inter: disnake.ApplicationCommandInteraction):
-		if "poll_" not in inter.component.custom_id:
+		if inter.component.custom_id != "poll":
 			return
 		if not any(inter.message.id == view.message_id for view in self.bot.persistent_views):
 			poll_to_add = await polls.find_one({"message_id": inter.message.id})
