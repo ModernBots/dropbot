@@ -187,6 +187,8 @@ class PollsCog(commands.Cog):
 	@commands.Cog.listener()
 	async def on_interaction(self, inter: disnake.ApplicationCommandInteraction):
 		try:
+			if not isinstance(inter, MessageInteraction):
+				return
 			if inter.component.custom_id != "poll":
 				return
 			if not any(inter.message.id == view.message_id for view in self.bot.persistent_views):
