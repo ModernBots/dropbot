@@ -132,7 +132,7 @@ class PollsCog(commands.Cog):
 		self,
 		inter: disnake.ApplicationCommandInteraction,
 		title: str,
-		options: list,
+		options: str,
 		min_choices: int=commands.Param(default=1, ge=1, le=24),
 		max_choices: int=commands.Param(default=1, ge=1, le=25)):
 		"""Make a poll
@@ -141,8 +141,8 @@ class PollsCog(commands.Cog):
 		----------
 		title: str
 			The title of the poll
-		options: list[str]
-			The options for the poll
+		options: str
+			The options for the poll, *separated by commas*
 		min_choices: int
 			The minimum number of choices
 		max_choices: int
