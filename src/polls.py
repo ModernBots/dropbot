@@ -42,7 +42,7 @@ class PollsCog(commands.Cog):
 			"min_choices": min_choices,
 			"max_choices": max_choices
 		}
-		return await (polls.insert_one(data)).inserted_id
+		return (await polls.insert_one(data)).inserted_id
 
 	async def get_poll(post_id):
 		return await polls.find_one({"_id": ObjectId(post_id)})
