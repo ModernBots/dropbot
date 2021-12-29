@@ -72,6 +72,11 @@ class PollsCog(commands.Cog):
 				return await inter.send(f"You have already voted in this poll!", ephemeral=True)
 			self.voted.append(inter.author.id)
 			votes_to_update = []
+			empty = "<:poll_empty:925262451287670794>"
+			one_quarter = "<:poll_one_quarter:925262450956316673>"
+			half = "<:poll_half:925262451304439849>"
+			three_quarters = "<:poll_three_quarters:925262451304456232>"
+			full = "<:poll_full:925262451115687957>"
 			for i in self.values:
 				index = self.str_options.index(i)
 				votes_to_update.append(index)
@@ -90,21 +95,21 @@ class PollsCog(commands.Cog):
 				if filled_remainder < 0.1:
 					filled_partial = ""
 				elif filled_remainder <= 0.35:
-					filled_partial = "<:poll_one_quarter:925262450956316673>"
+					filled_partial = one_quarter
 				elif filled_remainder <= 0.65:
-					filled_partial = "<:poll_half:925262451304439849>"
+					filled_partial = half
 				elif filled_remainder <= 0.9:
-					filled_partial = "<:poll_three_quarters:925262451304456232>"
+					filled_partial = three_quarters
 				else:
-					filled_partial = "<:poll_full:925262451115687957>"
-				blocks_filled = f"{'<:poll_full:925262451115687957>' * int(filled)}{filled_partial}"
+					filled_partial = full
+				blocks_filled = f"{full * int(filled)}{filled_partial}"
 				block_count = int(filled)
 				if filled_partial != "":
 					block_count += 1
-				blocks_empty = "<:poll_empty:925262451287670794>" * (5 - block_count)
+				blocks_empty = empty * (5 - block_count)
 				total_blocks = f"{blocks_filled}{blocks_empty}"
-				if int(self.votes[count]) >= 1 and total_blocks == "<:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794>":
-					total_blocks = "<:poll_one_quarter:925262450956316673><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794><:poll_empty:925262451287670794>"
+				if int(self.votes[count]) >= 1 and total_blocks == f"{empty * 5}":
+					total_blocks = f"{one_quarter}{empty * 4}"
 				winner = " ✅" if int(self.votes[count]) == max(self.votes) else ""
 				embed.add_field(
 					name=i,
