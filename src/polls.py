@@ -160,7 +160,7 @@ class PollsCog(commands.Cog):
 		return [i for i in open_polls if user_input in i]
 
 	@commands.slash_command(description="Close a poll.")
-	async def close_poll(self, inter: disnake.ApplicationCommandInteraction, user_input: str, title: str = commands.Param(autocomplete=autocomplete_title)):
+	async def close_poll(self, inter: disnake.ApplicationCommandInteraction, title: str = commands.Param(autocomplete=autocomplete_title)):
 		poll_to_close = polls.find_one({"title": title})
 		message = bot.get_message(poll_to_close["message_id"])
 		message.edit_original(view=None)
