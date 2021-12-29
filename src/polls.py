@@ -5,7 +5,6 @@ from bson.objectid import ObjectId
 from disnake.ext import commands
 from motor import motor_asyncio
 
-# mongoclient = pymongo.MongoClient()
 mongoclient = motor_asyncio.AsyncIOMotorClient()
 db = mongoclient.modernbot
 guild_preferences = db.guild_preferences
@@ -65,7 +64,7 @@ class PollsCog(commands.Cog):
 				min_values=min_choices,
 				max_values=max_choices,
 				options=self.poll_options,
-				custom_id=str(poll_id)
+				custom_id=f"poll_{str(poll_id)}"
 			)
 
 		async def callback(self, inter: disnake.MessageInteraction):
@@ -182,25 +181,30 @@ class PollsCog(commands.Cog):
 		return [i for i in guild_polls if user_input in i]
 
 	@commands.Cog.listener()
+	async def on_ready(self):
+		print("Added polls cog!")
+
+	@commands.Cog.listener()
 	async def on_interaction(self, inter: disnake.ApplicationCommandInteraction):
-		if inter.message.id not in self.persistent_polls:
+		if "poll_" not in inter.component.custom_id:
+			return
+		if not any(inter.message.id == view.message_id for view in self.bot.persistent_views):
 			poll_to_add = await polls.find_one({"message_id": inter.message.id})
-			try:
-				self.bot.add_view(self.PollView(
-					poll_to_add["options"],
-					poll_to_add["title"],
-					poll_to_add["author_name"],
-					poll_to_add["author_avatar"],
-					poll_to_add["min_choices"],
-					poll_to_add["max_choices"],
-					poll_to_add["_id"],
-					poll_to_add["votes"],
-					poll_to_add["voted"]
-				))
-				self.persistent_polls.append(inter.message.id)
-				print("Added a persistent poll!")
-			except Exception as e:
-				pass
+			view = self.PollView(
+				poll_to_add["options"],
+				poll_to_add["title"],
+				poll_to_add["author_name"],
+				poll_to_add["author_avatar"],
+				poll_to_add["min_choices"],
+				poll_to_add["max_choices"],
+				poll_to_add["_id"],
+				poll_to_add["votes"],
+				poll_to_add["voted"]
+			)
+			self.bot.add_view(view, inter.message.id)
+			await inter.component.callback(inter)
+			print("Added a persistent poll!")
+
 
 def setup(bot):
 	bot.add_cog(PollsCog(bot))
