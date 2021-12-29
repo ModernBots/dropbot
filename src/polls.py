@@ -183,9 +183,8 @@ class PollsCog(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_interaction(self, inter: disnake.ApplicationCommandInteraction):
-		original_message = await inter.original_message()
-		if original_message.view not in self.bot.persistent_views:
-			poll_to_add = await polls.find_one({"message_id": original_message.id})
+		if inter.message.view not in self.bot.persistent_views:
+			poll_to_add = await polls.find_one({"message_id": inter.message.id})
 			try:
 				self.bot.add_view(self.PollView(
 					i["options"],
