@@ -15,7 +15,7 @@ polls = db.polls
 class PollsCog(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
-		self.active_polls = []
+		self.persistent_polls = []
 
 	async def create_poll(
 		self,
@@ -183,7 +183,7 @@ class PollsCog(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_interaction(self, inter: disnake.ApplicationCommandInteraction):
-		if inter.message.view not in self.bot.persistent_views:
+		if inter.message.id not in self.persistent_polls:
 			poll_to_add = await polls.find_one({"message_id": inter.message.id})
 			try:
 				self.bot.add_view(self.PollView(
@@ -197,6 +197,7 @@ class PollsCog(commands.Cog):
 					i["votes"],
 					i["voted"]
 				))
+				self.persistent_polls.append(inter.message.id)
 			except Exception as e:
 				pass
 			print("Added a persistent poll!")
