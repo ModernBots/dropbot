@@ -152,20 +152,21 @@ class PollsCog(commands.Cog):
 		original_message = await inter.original_message()
 		polls.update_one({"_id": poll_id}, {"$set": {"message_id": original_message.id}})
 
+	@commands.slash_command(description="Close a poll.")
+	async def close_poll(self, inter: disnake.ApplicationCommandInteraction):
+		poll_to_close = polls.find_one({"title": title})
+		message = bot.get_message(poll_to_close["message_id"])
+		message.edit_original(view=None)
+		polls.delete_one({"title": title})
+		await inter.send("Poll closed.")
+
+	@close_poll.autocomplete("title")
 	def autocomplete_title(self, inter: disnake.ApplicationCommandInteraction, user_input: str):
 		guild_polls = polls.find({"guild_id": inter.guild.id})
 		open_polls = []
 		for i in guild_polls:
 			open_polls.append(guild_polls["title"])
 		return [i for i in open_polls if user_input in i]
-
-	@commands.slash_command(description="Close a poll.")
-	async def close_poll(self, inter: disnake.ApplicationCommandInteraction, title: str = commands.Param(autocomplete=autocomplete_title)):
-		poll_to_close = polls.find_one({"title": title})
-		message = bot.get_message(poll_to_close["message_id"])
-		message.edit_original(view=None)
-		polls.delete_one({"title": title})
-		await inter.send("Poll closed.")
 
 	@commands.Cog.listener()
 	async def on_ready(self):
