@@ -128,8 +128,8 @@ class PollsCog(commands.Cog):
 		inter: disnake.ApplicationCommandInteraction,
 		title: str,
 		options: str,
-		min_choices=commands.Param(default=1, ge=1, le=24),
-		max_choices=commands.Param(default=1, ge=1, le=25)):
+		min_choices: int=commands.Param(default=1, ge=1, le=24),
+		max_choices: int=commands.Param(default=1, ge=1, le=25)):
 		poll_options = options.split(",")[:25]
 		[i.strip() for i in poll_options]
 		[i[:25] for i in poll_options]
