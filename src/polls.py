@@ -127,14 +127,27 @@ class PollsCog(commands.Cog):
 			self.add_item(PollsCog.PollDropdown(
 				poll_options, title, author_name, author_avatar, min_choices, max_choices, poll_id, votes, voted))
 
-	@commands.slash_command(description="Make a poll. Seperate each option with a comma.")
+	@commands.slash_command()
 	async def poll(
 		self,
 		inter: disnake.ApplicationCommandInteraction,
 		title: str,
-		options: str,
+		options: list[str],
 		min_choices: int=commands.Param(default=1, ge=1, le=24),
 		max_choices: int=commands.Param(default=1, ge=1, le=25)):
+		"""Make a poll
+
+		Parameters
+		----------
+		title: str
+			The title of the poll
+		options: list[str]
+			The options for the poll
+		min_choices: int
+			The minimum number of choices
+		max_choices: int
+			The maximum number of choices
+		"""
 		poll_options = options.split(",")[:25]
 		[i.strip() for i in poll_options]
 		[i[:25] for i in poll_options]
@@ -159,8 +172,15 @@ class PollsCog(commands.Cog):
 		original_message = await inter.original_message()
 		await polls.update_one({"_id": poll_id}, {"$set": {"message_id": original_message.id}})
 
-	@commands.slash_command(description="Close a poll.")
+	@commands.slash_command()
 	async def close_poll(self, inter: disnake.ApplicationCommandInteraction, title: str):
+		"""Close a poll, must be poll author or a mod
+
+		Parameters
+		----------
+		title: str
+			The title of the poll to close
+		"""
 		poll_to_close = await polls.find_one({"title": title})
 		author_id = self.bot.get_message(poll_to_close["author_id"])
 		if author_id != inter.author.id or not inter.author.guild_permissions.manage_messages:
