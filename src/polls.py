@@ -167,7 +167,7 @@ class PollsCog(commands.Cog):
 	async def autocomplete_title(self, inter: disnake.ApplicationCommandInteraction, user_input: str):
 		guild_polls = []
 		guild_polls_cursor = polls.find({"guild_id": inter.guild.id})
-		for i in await found_polls.to_list(length=300):
+		for i in await guild_polls_cursor.to_list(length=300):
 			guild_polls.append(i)
 		return [i for j in guild_polls if user_input in (i := j["title"])]
 
