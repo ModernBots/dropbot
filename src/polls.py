@@ -206,7 +206,7 @@ class PollsCog(commands.Cog):
 			)
 			self.bot.add_view(view, message_id=inter.message.id)
 			print("Added a persistent poll!")
-		await self.PollDropdown.callback(inter)
+		await view.children[0].callback(inter)
 
 
 def setup(bot):
