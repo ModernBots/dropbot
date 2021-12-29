@@ -169,7 +169,8 @@ class PollsCog(commands.Cog):
 		guild_polls_cursor = polls.find({"guild_id": inter.guild.id})
 		for i in await guild_polls_cursor.to_list(length=300):
 			guild_polls.append(i)
-		return [i for j in guild_polls if user_input in (i := j["title"])]
+		open_polls = [i["title"] for i in guild_polls]
+		return [i for i in open_polls if user_input in i]
 
 	@commands.Cog.listener()
 	async def on_ready(self):
