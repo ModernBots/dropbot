@@ -3,10 +3,10 @@ import datetime
 import disnake
 from bson.objectid import ObjectId
 from disnake.ext import commands
-import motor.motor_asyncio
+from motor import motor_asyncio
 
 # mongoclient = pymongo.MongoClient()
-client = motor.motor_asyncio.AsyncIOMotorClient()
+client = motor_asyncio.AsyncIOMotorClient()
 db = mongoclient.modernbot
 guild_preferences = db.guild_preferences
 polls = db.polls
