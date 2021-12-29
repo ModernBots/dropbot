@@ -188,7 +188,10 @@ class PollsCog(commands.Cog):
 	async def on_message_interaction(self, inter: disnake.ApplicationCommandInteraction):
 		if inter.component.custom_id != "poll":
 			return
-		if not any(inter.message.id == view.message_id for view in self.bot.persistent_views):
+		for view in self.bot.persistent_views:
+			if view.message_id == inter.message.id:
+				break
+		else:
 			poll_to_add = await polls.find_one({"message_id": inter.message.id})
 			view = self.PollView(
 				poll_to_add["options"],
@@ -202,6 +205,7 @@ class PollsCog(commands.Cog):
 				poll_to_add["voted"]
 			)
 			self.bot.add_view(view, message_id=inter.message.id)
+			view.PollDropdown.callback(inter)
 			print("Added a persistent poll!")
 
 
