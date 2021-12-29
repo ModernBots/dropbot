@@ -185,28 +185,25 @@ class PollsCog(commands.Cog):
 		print("Added polls cog!")
 
 	@commands.Cog.listener()
-	async def on_interaction(self, inter: disnake.ApplicationCommandInteraction):
-		try:
-			if inter.component.custom_id != "poll":
-				return
-			if not any(inter.message.id == view.message_id for view in self.bot.persistent_views):
-				poll_to_add = await polls.find_one({"message_id": inter.message.id})
-				view = self.PollView(
-					poll_to_add["options"],
-					poll_to_add["title"],
-					poll_to_add["author_name"],
-					poll_to_add["author_avatar"],
-					poll_to_add["min_choices"],
-					poll_to_add["max_choices"],
-					poll_to_add["_id"],
-					poll_to_add["votes"],
-					poll_to_add["voted"]
-				)
-				self.bot.add_view(view, inter.message.id)
-				await inter.component.callback(inter)
-				print("Added a persistent poll!")
-		except:
-			pass
+	async def on_message_interaction(self, inter: disnake.ApplicationCommandInteraction):
+		if inter.component.custom_id != "poll":
+			return
+		if not any(inter.message.id == view.message_id for view in self.bot.persistent_views):
+			poll_to_add = await polls.find_one({"message_id": inter.message.id})
+			view = self.PollView(
+				poll_to_add["options"],
+				poll_to_add["title"],
+				poll_to_add["author_name"],
+				poll_to_add["author_avatar"],
+				poll_to_add["min_choices"],
+				poll_to_add["max_choices"],
+				poll_to_add["_id"],
+				poll_to_add["votes"],
+				poll_to_add["voted"]
+			)
+			self.bot.add_view(view, inter.message.id)
+			await inter.component.callback(inter)
+			print("Added a persistent poll!")
 
 
 def setup(bot):
