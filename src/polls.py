@@ -201,7 +201,7 @@ class PollsCog(commands.Cog):
 				poll_to_add["votes"],
 				poll_to_add["voted"]
 			)
-			self.bot.add_view(view, inter.message.id)
+			self.bot.add_view(view, message_id=inter.message.id)
 			await inter.component.callback(inter)
 			print("Added a persistent poll!")
 
