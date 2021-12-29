@@ -173,7 +173,7 @@ class PollsCog(commands.Cog):
 		if not self.persistent_polls_added:
 			sucessful_additions = 0
 			found_polls = polls.find()
-			async for i in found_polls.next():
+			for i in await found_polls.to_list():
 				try:
 					self.bot.add_view(self.PollView(
 						i["options"], i["title"], i["author_name"], i["author_avatar"], i["min_choices"], i["max_choices"], i["_id"], i["votes"], i["voted"]
