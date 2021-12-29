@@ -48,26 +48,25 @@ class RoleMenusCog(commands.Cog):
 		pass
 
 	@commands.slash_command()
-	async def role_menu(inter: disnake.ApplicationCommandInteraction, title: str, initial_role: disnake.Role, initial_role_emoji: disnake.Emoji = None, initial_role_description: str = None, description: str = None):
+	async def role_menu(inter: disnake.ApplicationCommandInteraction, title: str, description: str = None):
 		"""Make a role menu, use /add_role_to_menu to add more roles
 
 		Parameters
 		----------
 		title: str
 			The title of the role menu
-		initial_role: disnake.Role
-			The role to start the menu with, more can be added with /add_role_to_menu
-		initial_role_emoji: disnake.Emoji
-			The emoji to use for the initial role
-		initial_role_description: str
-			The description of the initial role
 		description: str
 			The description of the role menu
 		"""
 		pass
+		# Ephemeral dropdow menu(s) to select multiple roles
+		# Paginated list of roles
+		# Only roles that the bot is above
+		# Show warning about that lol
+		# If bot can't assign any roles show ephemeral wraning
 
 	@commands.slash_command(description="Adds a role to a role menu.")
-	async def add_role_to_menu(inter: disnake.ApplicationCommandInteraction, title: str, role: disnake.Role, emoji: disnake.Emoji = None, description: str = None):
+	async def add_role_to_menu(inter: disnake.ApplicationCommandInteraction, title: str, role: disnake.Role):
 		"""Adds a role to a role menu
 
 		Parameters
@@ -76,15 +75,11 @@ class RoleMenusCog(commands.Cog):
 			The title of the role menu
 		role: disnake.Role
 			The role to add to the menu
-		emoji: disnake.Emoji
-			The emoji to use for the role
-		description: str
-			The description of the role menu
 		"""
 		pass
 
 	@commands.slash_command(description="Removes a role to a role menu.")
-	async def remove_role_from_menu(inter: disnake.ApplicationCommandInteraction, message_id: int, position: int = commands.Param(ge=1, le=25)):
+	async def remove_role_to_menu(inter: disnake.ApplicationCommandInteraction, title: str, role: disnake.Role):
 		"""Removes a role from a role menu
 
 		Parameters
