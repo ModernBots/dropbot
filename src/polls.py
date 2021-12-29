@@ -15,7 +15,7 @@ polls = db.polls
 class PollsCog(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
-		self.persistent_polls_added = False
+		self.active_polls = []
 
 	async def create_poll(
 		self,
@@ -182,22 +182,25 @@ class PollsCog(commands.Cog):
 		return [i for i in guild_polls if user_input in i]
 
 	@commands.Cog.listener()
-	async def on_ready(self):
-		if not self.persistent_polls_added:
-			sucessful_additions = 0
-			polls_to_add = []
-			async for i in polls.find():
-				polls_to_add.append(i)
-			for i in polls_to_add[-200:]:
-				try:
-					self.bot.add_view(self.PollView(
-						i["options"], i["title"], i["author_name"], i["author_avatar"], i["min_choices"], i["max_choices"], i["_id"], i["votes"], i["voted"]
-					))
-					sucessful_additions += 1
-				except Exception as e:
-					pass
-			self.persistent_polls_added = True
-			print(f"Added {sucessful_additions} persistent polls!\n")
+	async def on_interaction(self, inter: disnake.ApplicationCommandInteraction):
+		original_message = await inter.original_message()
+		if original_message.view not in self.bot.persistent_views:
+			poll_to_add = await polls.find_one({"message_id": original_message.id})
+			try:
+				self.bot.add_view(self.PollView(
+					i["options"],
+					i["title"],
+					i["author_name"],
+					i["author_avatar"],
+					i["min_choices"],
+					i["max_choices"],
+					i["_id"],
+					i["votes"],
+					i["voted"]
+				))
+			except Exception as e:
+				pass
+			print("Added a persistent poll!")
 
 def setup(bot):
 	bot.add_cog(PollsCog(bot))
