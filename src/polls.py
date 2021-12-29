@@ -173,13 +173,11 @@ class PollsCog(commands.Cog):
 			sucessful_additions = 0
 			for i in polls.find():
 				try:
-					#PollView(poll_options, title, min_choices, max_choices, poll_id))
 					self.bot.add_view(self.PollView(
 						i["options"], i["title"], i["author_name"], i["author_avatar"], i["min_choices"], i["max_choices"], i["_id"]
 					))
 					sucessful_additions += 1
 				except Exception as e:
-					# print(e)
 					pass
 			self.persistent_polls_added = True
 			print(f"Added {sucessful_additions} persistent polls!\n")
