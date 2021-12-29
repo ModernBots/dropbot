@@ -170,7 +170,7 @@ class PollsCog(commands.Cog):
 		for i in await guild_polls_cursor.to_list(length=300):
 			guild_polls.append(i)
 		print(f"\n\n\nGP: {guild_polls}\n\n\n")
-		open_polls = [i["title"] for i in guild_polls]
+		open_polls = [i[0]["title"] for i in guild_polls]
 		return [i for i in open_polls if user_input in i]
 
 	@commands.Cog.listener()
