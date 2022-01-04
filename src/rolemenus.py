@@ -57,7 +57,7 @@ class RoleMenusCog(commands.Cog):
 		return await polls.find_one({"_id": ObjectId(post_id)})
 
 	class Menu(disnake.ui.View):
-		def __init__(self, embeds: list[disnake.Embed], dropdowns: list[disnake.ui.Select]):
+		def __init__(self, embeds, dropdowns):
 			super().__init__()
 			self.embeds = embeds
 			self.dropdowns = dropdowns
