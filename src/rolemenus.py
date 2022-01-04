@@ -54,7 +54,7 @@ class RoleMenusCog(commands.Cog):
 		return (await role_menus.insert_one(data)).inserted_id
 
 	async def get_role_menu(post_id):
-		return await polls.find_one({"_id": ObjectId(post_id)})
+		return await role_menus.find_one({"_id": ObjectId(post_id)})
 
 	class Menu(disnake.ui.View):
 		def __init__(self, embeds, dropdowns):
@@ -118,7 +118,7 @@ class RoleMenusCog(commands.Cog):
 	class InitialRoleSelectView(disnake.ui.View):
 		def __init__(self, accessible_roles, title, author_name, author_avatar, min_choices, max_choices):
 			super().__init__()
-			self.add_item(PollsCog.InitialRoleSelectDropdown(accessible_roles))
+			self.add_item(RoleMenusCog.InitialRoleSelectDropdown(accessible_roles))
 
 	@commands.slash_command()
 	async def role_menu(self, inter: disnake.ApplicationCommandInteraction, title: str, description: str = None, min_roles: int = commands.Param(default=1, ge=1, le=24), max_roles: int = commands.Param(default=1, ge=1, le=24)):
