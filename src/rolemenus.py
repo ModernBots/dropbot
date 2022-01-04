@@ -121,7 +121,7 @@ class RoleMenusCog(commands.Cog):
 			self.add_item(PollsCog.InitialRoleSelectDropdown(accessible_roles))
 
 	@commands.slash_command()
-	async def role_menu(self, inter: disnake.ApplicationCommandInteraction, title: str, description: str = None, min_roles: int = disnake.Param(default=1, ge=1, le=24), max_roles: int = disnake.Param(default=1, ge=1, le=24)):
+	async def role_menu(self, inter: disnake.ApplicationCommandInteraction, title: str, description: str = None, min_roles: int = commands.Param(default=1, ge=1, le=24), max_roles: int = commands.Param(default=1, ge=1, le=24)):
 		"""Make a role menu
 
 		Parameters
