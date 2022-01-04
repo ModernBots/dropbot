@@ -14,7 +14,6 @@ polls = db.polls
 class PollsCog(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
-		self.persistent_polls = []
 
 	async def create_poll(
 		self,
@@ -183,7 +182,7 @@ class PollsCog(commands.Cog):
 		"""
 		poll_to_close = await polls.find_one({"title": title})
 		author_id = self.bot.get_message(poll_to_close["author_id"])
-		if author_id != inter.author.id or not inter.author.guild_permissions.manage_messages:
+		if (author_id != inter.author.id) or (inter.author.guild_permissions.manage_messages == False):
 			return await inter.send("You don't have permission to close this poll.", ephemeral=True)
 		message = self.bot.get_message(poll_to_close["message_id"])
 		if message == None:
@@ -197,12 +196,11 @@ class PollsCog(commands.Cog):
 	@close_poll.autocomplete("title")
 	async def autocomplete_title(self, inter: disnake.ApplicationCommandInteraction, user_input: str):
 		guild_polls = []
-		guild_polls_cursor = polls.find({"guild_id": inter.guild.id})
-		for i in await guild_polls_cursor.to_list(length=300):
+		async for i in polls.find({"guild_id": inter.guild.id}):
 			try:
 				guild_polls.append(i["title"])
 			except:
-				pass
+				await polls.delete_one(i)
 		return [i for i in guild_polls if user_input in i]
 
 	@commands.Cog.listener()
