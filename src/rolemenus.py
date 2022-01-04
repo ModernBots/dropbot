@@ -116,9 +116,9 @@ class RoleMenusCog(commands.Cog):
 				max_choices)
 
 	class InitialRoleSelectView(disnake.ui.View):
-		def __init__(self, accessible_roles, title, author_name, author_avatar, min_choices, max_choices):
+		def __init__(self, accessible_roles, title, description, author_name, author_avatar, min_choices, max_choices):
 			super().__init__()
-			self.add_item(RoleMenusCog.InitialRoleSelectDropdown(accessible_roles, title, author_name, author_avatar, min_choices, max_choices))
+			self.add_item(RoleMenusCog.InitialRoleSelectDropdown(accessible_roles, title, description, author_name, author_avatar, min_choices, max_choices))
 
 	@commands.slash_command()
 	async def role_menu(self, inter: disnake.ApplicationCommandInteraction, title: str, description: str = None, min_roles: int = commands.Param(default=1, ge=1, le=24), max_roles: int = commands.Param(default=1, ge=1, le=24)):
@@ -159,7 +159,7 @@ class RoleMenusCog(commands.Cog):
 				value=i.mention,
 			)
 		author_avatar = inter.author.default_avatar.url if inter.author.avatar.url == None else inter.author.avatar.url
-		await inter.send(embed=embed, view=self.InitialRoleSelectView(accessible_roles, title, inter.author.name, author_avatar, min_roles, max_roles), ephemeral=True)
+		await inter.send(embed=embed, view=self.InitialRoleSelectView(accessible_roles, description, title, inter.author.name, author_avatar, min_roles, max_roles), ephemeral=True)
 
 	@commands.slash_command(description="Adds a role to a role menu.")
 	async def add_role_to_menu(self, inter: disnake.ApplicationCommandInteraction, title: str, role: disnake.Role):
