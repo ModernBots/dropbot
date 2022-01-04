@@ -122,7 +122,7 @@ class RoleMenusCog(commands.Cog):
 			self.add_item(PollsCog.InitialRoleSelectDropdown(accessible_roles))
 
 	@commands.slash_command()
-	async def role_menu(inter: disnake.ApplicationCommandInteraction, title: str, description: str = None):
+	async def role_menu(self, inter: disnake.ApplicationCommandInteraction, title: str, description: str = None):
 		"""Make a role menu
 
 		Parameters
@@ -162,7 +162,7 @@ class RoleMenusCog(commands.Cog):
 		await inter.send(embed=embed, view=self.InitialRoleSelectView(accessible_roles), ephemeral=True)
 
 	@commands.slash_command(description="Adds a role to a role menu.")
-	async def add_role_to_menu(inter: disnake.ApplicationCommandInteraction, title: str, role: disnake.Role):
+	async def add_role_to_menu(self, inter: disnake.ApplicationCommandInteraction, title: str, role: disnake.Role):
 		"""Add a role to a role menu
 
 		Parameters
@@ -176,7 +176,7 @@ class RoleMenusCog(commands.Cog):
 			return await inter.send("You don't have permission to manage roles!", ephemeral=True)
 
 	@commands.slash_command(description="Removes a role to a role menu.")
-	async def remove_role_from_menu(inter: disnake.ApplicationCommandInteraction, title: str, role: disnake.Role):
+	async def remove_role_from_menu(self, inter: disnake.ApplicationCommandInteraction, title: str, role: disnake.Role):
 		"""Removes a role from a role menu
 
 		Parameters
