@@ -104,7 +104,6 @@ class RoleMenusCog(commands.Cog):
 			)
 
 		async def callback(self, inter: disnake.MessageInteraction):
-			author_avatar = inter.author.default_avatar.url if inter.author.avatar.url == None else inter.author.avatar.url
 			await RoleMenusCog.create_role_menu(
 				inter.guild.id,
 				inter.author.id,
@@ -159,7 +158,8 @@ class RoleMenusCog(commands.Cog):
 				name=i.name,
 				value=i.mention,
 			)
-		await inter.send(embed=embed, view=self.InitialRoleSelectView(accessible_roles), ephemeral=True)
+		author_avatar = inter.author.default_avatar.url if inter.author.avatar.url == None else inter.author.avatar.url
+		await inter.send(embed=embed, view=self.InitialRoleSelectView(accessible_roles, title, inter.author.name, author_avatar, min_choices, max_choices), ephemeral=True)
 
 	@commands.slash_command(description="Adds a role to a role menu.")
 	async def add_role_to_menu(self, inter: disnake.ApplicationCommandInteraction, title: str, role: disnake.Role):
