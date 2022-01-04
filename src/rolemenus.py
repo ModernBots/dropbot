@@ -159,7 +159,7 @@ class RoleMenusCog(commands.Cog):
 				name=i.name,
 				value=i.mention,
 			)
-		await inter.send(embed=embed, view=InitialRoleSelectView(accessible_roles), ephemeral=True)
+		await inter.send(embed=embed, view=self.InitialRoleSelectView(accessible_roles), ephemeral=True)
 
 	@commands.slash_command(description="Adds a role to a role menu.")
 	async def add_role_to_menu(inter: disnake.ApplicationCommandInteraction, title: str, role: disnake.Role):
