@@ -139,8 +139,7 @@ class RoleMenusCog(commands.Cog):
 		# Only roles that the bot is above
 		# Show warning about that lol
 		# If bot can't assign any roles show ephemeral wraning
-		print(inter.guild.roles)
-		accessible_roles = inter.guild.roles.reverse()[inter.guild.roles.index(inter.me.roles[0]) + 1:]
+		accessible_roles = inter.guild.roles.reverse() #[inter.guild.roles.index(inter.me.roles[0]) + 1:]
 		if len(accessible_roles != 0):
 			for i in accessible_roles:
 				if not i.is_assignable():
