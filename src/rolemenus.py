@@ -159,7 +159,7 @@ class RoleMenusCog(commands.Cog):
 				value=i.mention,
 			)
 		author_avatar = inter.author.default_avatar.url if inter.author.avatar.url == None else inter.author.avatar.url
-		await inter.send(embed=embed, view=self.InitialRoleSelectView(accessible_roles, title, inter.author.name, author_avatar, min_choices, max_choices), ephemeral=True)
+		await inter.send(embed=embed, view=self.InitialRoleSelectView(accessible_roles, title, inter.author.name, author_avatar, min_roles, max_roles), ephemeral=True)
 
 	@commands.slash_command(description="Adds a role to a role menu.")
 	async def add_role_to_menu(self, inter: disnake.ApplicationCommandInteraction, title: str, role: disnake.Role):
