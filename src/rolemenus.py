@@ -99,7 +99,7 @@ class RoleMenusCog(commands.Cog):
 			super().__init__(
 				placeholder=f"Vote in {title}",
 				min_values=1,
-				max_values=len(role_titles),
+				max_values=len(self.role_titles),
 				options=self.role_titles
 			)
 
