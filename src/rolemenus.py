@@ -142,11 +142,11 @@ class RoleMenusCog(commands.Cog):
 		accessible_roles = inter.guild.roles
 		accessible_roles.reverse()
 		accessible_roles = accessible_roles[inter.guild.roles.index(inter.me.roles[0]) + 1:]
-		if len(accessible_roles != 0):
+		if len(accessible_roles) != 0:
 			for i in accessible_roles:
 				if not i.is_assignable():
 					accessible_roles.remove(i)
-		if len(accessible_roles == 0):
+		if len(accessible_roles) == 0:
 			embed = disnake.Embed(
 				title="I can't assign any roles!",
 				description="The bot's highest role is below all other roles, so it can't assign any roles. Please move the bot's role above all other roles you want assignable."
