@@ -162,7 +162,7 @@ class RoleMenusCog(commands.Cog):
 		author_avatar = inter.author.default_avatar.url if inter.author.avatar.url == None else inter.author.avatar.url
 		await inter.send(
 			embed=embed,
-			view=PollsCog.InitialRoleSelectView(
+			view=RoleMenusCog.InitialRoleSelectView(
 				accessible_roles,
 				title,
 				description,
