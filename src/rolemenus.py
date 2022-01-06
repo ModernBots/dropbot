@@ -95,7 +95,7 @@ class RoleMenusCog(commands.Cog):
 			self.roles = roles
 			self.min_choices = min_choices
 			self.max_choices = max_choices
-			[self.role_titles.append(i.name) for i in self.roles]
+			[self.role_titles.append(disnake.SelectOption(label=i.name)) for i in self.roles]
 			super().__init__(
 				placeholder=f"Vote in {title}",
 				min_values=1,
