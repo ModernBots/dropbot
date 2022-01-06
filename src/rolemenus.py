@@ -121,7 +121,13 @@ class RoleMenusCog(commands.Cog):
 			self.add_item(RoleMenusCog.InitialRoleSelectDropdown(accessible_roles, title, description, author_name, author_avatar, min_choices, max_choices))
 
 	@commands.slash_command()
-	async def role_menu(self, inter: disnake.ApplicationCommandInteraction, title: str, description: str = None, min_roles: int = commands.Param(default=1, ge=1, le=24), max_roles: int = commands.Param(default=1, ge=1, le=24)):
+	async def role_menu(
+		self,
+		inter: disnake.ApplicationCommandInteraction,
+		title: str,
+		description: str = None,
+		min_roles: int = commands.Param(default=1, ge=1, le=24),
+		max_roles: int = commands.Param(default=1, ge=1, le=24)):
 		"""Make a role menu
 
 		Parameters
@@ -129,15 +135,10 @@ class RoleMenusCog(commands.Cog):
 		title: str
 			The title of the role menu
 		description: str
-			The description of the role menu
+			The description of the role menu (optional)
 		"""
 		if not inter.author.guild_permissions.manage_roles:
 			return await inter.send("You don't have permission to manage roles!", ephemeral=True)
-		# Ephemeral dropdow menu(s) to select multiple roles
-		# Paginated list of roles
-		# Only roles that the bot is above
-		# Show warning about that lol
-		# If bot can't assign any roles show ephemeral wraning
 		accessible_roles = inter.guild.roles
 		accessible_roles.reverse()
 		accessible_roles = accessible_roles[inter.guild.roles.index(inter.me.roles[0]) + 1:]
@@ -161,14 +162,14 @@ class RoleMenusCog(commands.Cog):
 		author_avatar = inter.author.default_avatar.url if inter.author.avatar.url == None else inter.author.avatar.url
 		await inter.send(
 			embed=embed,
-			view=self.InitialRoleSelectView(
-				accessible_roles,
-				title,
-				description,
-				inter.author.name,
-				author_avatar,
-				min_roles,
-				max_roles),
+			# view=self.InitialRoleSelectView(
+			# 	accessible_roles,
+			# 	title,
+			# 	description,
+			# 	inter.author.name,
+			# 	author_avatar,
+			# 	min_roles,
+			# 	max_roles),
 			ephemeral=True)
 
 	@commands.slash_command(description="Adds a role to a role menu.")
