@@ -200,6 +200,10 @@ class RoleMenusCog(commands.Cog):
 		if not inter.author.guild_permissions.manage_roles:
 			return await inter.send("You don't have permission to manage roles!", ephemeral=True)
 
+	@commands.Cog.listener()
+	async def on_ready(self):
+		print("Added roles cog!")
+
 
 def setup(bot):
 	bot.add_cog(RoleMenusCog(bot))
